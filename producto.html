@@ -390,14 +390,20 @@ function renderProduct(p){
     document.getElementById('qtyPlus').addEventListener('click',()=>{qty++;document.getElementById('qtyVal').textContent=qty;});
 
     document.getElementById('addCartBtn')?.addEventListener('click',()=>{
-      cartItems.push({id:v?.id,title:p.title,price,qty,img:images[0]?.url||''});
+      const existing = cartItems.findIndex(i=>i.id===v?.id);
+      if(existing>=0) cartItems[existing].qty+=qty;
+      else cartItems.push({id:v?.id,title:p.title,price,qty,img:images[0]?.url||''});
+      sessionStorage.setItem('farmCart', JSON.stringify(cartItems));
       updateCartDrawer();
       showToast('¡Añadido al carrito!');
       openCart();
     });
 
     document.getElementById('buyNowBtn')?.addEventListener('click',()=>{
-      cartItems.push({id:v?.id,title:p.title,price,qty:1,img:images[0]?.url||''});
+      const existing = cartItems.findIndex(i=>i.id===v?.id);
+      if(existing>=0) cartItems[existing].qty+=1;
+      else cartItems.push({id:v?.id,title:p.title,price,qty:1,img:images[0]?.url||''});
+      sessionStorage.setItem('farmCart', JSON.stringify(cartItems));
       updateCartDrawer();
       window.location.href='checkout.html';
     });
