@@ -1517,7 +1517,6 @@ window.filterProds = function(btn, cat) {
             ${was ? `<span class="pcard__badge pcard__badge--sale">-${discount}%</span>` : ''}
           </div>
           <button class="pcard__wish" onclick="event.preventDefault()">♡</button>
-          ${available ? `<button class="btn btn-dark btn-sm pcard__cta" onclick="event.preventDefault();addToCart({handle:'${p.handle}',title:${JSON.stringify(p.title)},price:${price},img:'${img ? img.url : ''}'})">+ Añadir</button>` : ''}
         </div>
         <div class="pcard__info">
           <div class="pcard__brand">${p.vendor}</div>
