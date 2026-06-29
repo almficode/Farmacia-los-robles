@@ -810,11 +810,15 @@
   <form class="search-form" onsubmit="return false">
     <input class="search-input" id="searchInput" type="search" placeholder="Buscar productos, marcas&#x2026;" autocomplete="off" />
   </form>
-  <div class="search-tags">
-    <span class="search-tag">Protector solar</span><span class="search-tag">Vitamina C</span>
-    <span class="search-tag">Isdin</span><span class="search-tag">La Roche-Posay</span>
-    <span class="search-tag">Col&#xe1;geno</span><span class="search-tag">Probiticos</span>
+  <div class="search-tags" id="searchSuggestions">
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">Protector solar</span>
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">Vitamina C</span>
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">Isdin</span>
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">La Roche-Posay</span>
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">Col&#xe1;geno</span>
+    <span class="search-tag" onclick="document.getElementById('searchInput').value=this.textContent;searchProducts(this.textContent)">Probiticos</span>
   </div>
+  <div id="searchResults" style="width:100%;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:.75rem;max-height:55vh;overflow-y:auto;padding-inline:1rem"></div>
 </div>
 
 <!-- CART -->
@@ -1376,15 +1380,75 @@ function initMobileMenu() {
 }
 
 /* ── SEARCH ───────────────────── */
+const SHOP  = 'a8ck6a-t6.myshopify.com';
+const TOKEN = 'db3d07fd2f93e53129fa1462ece7958a';
+
+let _searchTimer;
+window.searchProducts = async function(q) {
+  const results = document.getElementById('searchResults');
+  const suggestions = document.getElementById('searchSuggestions');
+  if (!q || q.trim().length < 2) {
+    results.innerHTML = '';
+    suggestions.style.display = '';
+    return;
+  }
+  suggestions.style.display = 'none';
+  results.innerHTML = '<p style="color:rgba(255,255,255,.5);text-align:center;padding:1rem">Buscando…</p>';
+  try {
+    const query = `{products(first:10,query:${JSON.stringify(q)}){edges{node{
+      handle title vendor
+      priceRange{minVariantPrice{amount}}
+      images(first:1){edges{node{url}}}
+      variants(first:1){edges{node{availableForSale}}}
+    }}}}`;
+    const res  = await fetch(`https://${SHOP}/api/2024-01/graphql.json`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':TOKEN},
+      body: JSON.stringify({query})
+    });
+    const {data} = await res.json();
+    const products = data?.products?.edges || [];
+    if (!products.length) {
+      results.innerHTML = '<p style="color:rgba(255,255,255,.5);text-align:center;padding:1rem">No se encontraron productos para "<strong style="color:#fff">'+q+'</strong>"</p>';
+      return;
+    }
+    results.innerHTML = products.map(({node:p}) => {
+      const price = parseFloat(p.priceRange.minVariantPrice.amount).toFixed(2).replace('.',',');
+      const img   = p.images.edges[0]?.node?.url || '';
+      return `<a href="producto.html?handle=${p.handle}" style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.07);border-radius:14px;padding:.875rem 1.25rem;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.13)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">
+        ${img ? `<img src="${img}" style="width:52px;height:52px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,.1);padding:.25rem;flex-shrink:0"/>` : '<div style="width:52px;height:52px;background:rgba(255,255,255,.1);border-radius:8px;flex-shrink:0"></div>'}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:.15rem">${p.vendor}</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+        </div>
+        <div style="font-size:1rem;font-weight:600;color:#C8A96E;flex-shrink:0">${price} €</div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    results.innerHTML = '<p style="color:rgba(255,255,255,.4);text-align:center">Error al buscar. Inténtalo de nuevo.</p>';
+  }
+};
+
 function initSearch() {
   const o = document.getElementById('searchOverlay');
+  const input = document.getElementById('searchInput');
   document.querySelectorAll('[data-search]').forEach(b => b.addEventListener('click', () => {
     o.classList.add('open');
-    setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
+    setTimeout(() => input?.focus(), 300);
   }));
-  document.getElementById('searchClose').addEventListener('click', () => o.classList.remove('open'));
-  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
-  window.addEventListener('keydown', e => { if(e.key==='Escape') o.classList.remove('open'); });
+  const closeSearch = () => {
+    o.classList.remove('open');
+    if (input) input.value = '';
+    document.getElementById('searchResults').innerHTML = '';
+    document.getElementById('searchSuggestions').style.display = '';
+  };
+  document.getElementById('searchClose').addEventListener('click', closeSearch);
+  o.addEventListener('click', e => { if(e.target===o) closeSearch(); });
+  window.addEventListener('keydown', e => { if(e.key==='Escape') closeSearch(); });
+  input?.addEventListener('input', e => {
+    clearTimeout(_searchTimer);
+    _searchTimer = setTimeout(() => searchProducts(e.target.value.trim()), 350);
+  });
 }
 
 /* ── CART ─────────────────────── */
