@@ -194,36 +194,141 @@
   </div>
 </section>
 
-<!-- GALERÍA DE LA FARMACIA -->
-<section class="section" style="background:#FDFCF9;padding-block:5rem">
+<!-- GALERÍA DE LA FARMACIA — CARRUSEL -->
+<section class="section" style="background:#FDFCF9;padding-block:5rem;overflow:hidden">
   <div class="container">
     <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;color:#071C11;margin:0 0 3rem">
       Un espacio pensado<br><em style="font-style:italic;color:#C8A96E">para ti.</em>
     </h2>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:1rem">
-      <div style="grid-row:1/3;border-radius:1.5rem;overflow:hidden;aspect-ratio:3/4">
-        <img src="img/farmacia-interior-amplio.jpg" alt="Interior amplio Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
-        <img src="img/producto-nuxe.jpg" alt="Productos Nuxe" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
-        <img src="img/farmacia-interior-optica.jpg" alt="Sección óptica" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
-        <img src="img/producto-lazartigue-display.jpg" alt="Display productos Lazartigue" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
-        <img src="img/farmacia-seccion-infantil.jpg" alt="Sección infantil" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:3rem">
-      <a href="tienda.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C8A96E;color:#fff;font-weight:600;font-size:.95rem;padding:.9rem 2.25rem;border-radius:999px;text-decoration:none;letter-spacing:.02em">
-        Ver todos los productos →
-      </a>
-    </div>
+  </div>
+
+  <!-- Carrusel perspectiva 3D -->
+  <div id="farmCarousel" style="position:relative;width:100%;padding-block:2rem 3.5rem">
+    <div id="farmTrack" style="display:flex;align-items:center;justify-content:center;gap:0;perspective:1200px;height:clamp(320px,45vw,560px);position:relative"></div>
+
+    <!-- Botón siguiente -->
+    <button id="farmNext" aria-label="Siguiente foto" style="
+      position:absolute;right:clamp(1rem,4vw,4rem);top:50%;transform:translateY(-50%);
+      width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+      background:#071C11;color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 24px rgba(7,28,17,.25);transition:background .2s,transform .2s;z-index:20">&#8594;</button>
+    <button id="farmPrev" aria-label="Foto anterior" style="
+      position:absolute;left:clamp(1rem,4vw,4rem);top:50%;transform:translateY(-50%);
+      width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+      background:#071C11;color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 24px rgba(7,28,17,.25);transition:background .2s,transform .2s;z-index:20">&#8592;</button>
+
+    <!-- Dots -->
+    <div id="farmDots" style="position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:20"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:1rem">
+    <a href="tienda.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C8A96E;color:#fff;font-weight:600;font-size:.95rem;padding:.9rem 2.25rem;border-radius:999px;text-decoration:none;letter-spacing:.02em">
+      Ver todos los productos →
+    </a>
   </div>
 </section>
+
+<style>
+#farmNext:hover,#farmPrev:hover{background:#2C6E49;transform:translateY(-50%) scale(1.08)}
+.farm-card{position:absolute;border-radius:1.5rem;overflow:hidden;cursor:pointer;will-change:transform,opacity;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .6s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+.farm-card img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;user-select:none}
+.farm-card__caption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.75rem;background:linear-gradient(to top,rgba(7,28,17,.75),transparent);color:#fff;font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-style:italic;opacity:0;transition:opacity .4s}
+.farm-card.is-active .farm-card__caption{opacity:1}
+.farm-dot{width:8px;height:8px;border-radius:50%;background:rgba(7,28,17,.2);border:none;cursor:pointer;padding:0;transition:background .3s,transform .3s}
+.farm-dot.is-active{background:#071C11;transform:scale(1.35)}
+</style>
+
+<script>
+(function(){
+  const slides = [
+    { src:'img/farmacia-interior-amplio.jpg',    caption:'Amplias instalaciones para tu comodidad' },
+    { src:'img/farmacia-interior-panorama.jpg',   caption:'Vista panorámica de nuestra farmacia'   },
+    { src:'img/farmacia-interior-mostrador.jpg',  caption:'Atención personalizada en mostrador'    },
+    { src:'img/farmacia-interior-optica.jpg',     caption:'Sección óptica de última generación'    },
+    { src:'img/farmacia-exterior.jpg',            caption:'Nos encontrarás en el corazón de Lanzarote' },
+    { src:'img/farmacia-seccion-infantil.jpg',    caption:'Todo para el cuidado de los más pequeños' },
+  ];
+
+  const track   = document.getElementById('farmTrack');
+  const dotsWrap= document.getElementById('farmDots');
+  const N       = slides.length;
+  let cur       = 0, animating = false, autoTimer;
+
+  /* --- construir tarjetas --- */
+  slides.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'farm-card';
+    card.innerHTML = `<img src="${s.src}" alt="${s.caption}" /><div class="farm-card__caption">${s.caption}</div>`;
+    card.addEventListener('click', () => { if (!animating) advance(1); });
+    track.appendChild(card);
+
+    const dot = document.createElement('button');
+    dot.className = 'farm-dot' + (i===0?' is-active':'');
+    dot.setAttribute('aria-label','Foto '+(i+1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  const cards = track.querySelectorAll('.farm-card');
+  const dots  = dotsWrap.querySelectorAll('.farm-dot');
+
+  /* --- posicionamiento 3D --- */
+  function layout() {
+    const W = Math.min(track.offsetWidth * .52, 520);
+    const H = W * .68;
+    cards.forEach((card, i) => {
+      const rel = ((i - cur + N) % N);           // 0=activo, 1=siguiente, N-1=anterior
+      const side = rel <= N/2 ? rel : rel - N;   // -2 -1 0 1 2
+      const abs  = Math.abs(side);
+
+      card.style.width  = W + 'px';
+      card.style.height = H + 'px';
+
+      const tx      = side * W * .52;
+      const tz      = -abs * 120;
+      const ry      = side * -14;
+      const scale   = 1 - abs * .12;
+      const opacity = abs > 2 ? 0 : 1 - abs * .32;
+      const zIndex  = 10 - abs;
+
+      card.style.transform  = `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${scale})`;
+      card.style.opacity    = opacity;
+      card.style.zIndex     = zIndex;
+      card.style.boxShadow  = abs === 0 ? '0 24px 80px rgba(7,28,17,.3)' : '0 8px 32px rgba(7,28,17,.12)';
+      card.classList.toggle('is-active', rel === 0);
+    });
+    dots.forEach((d,i) => d.classList.toggle('is-active', i===cur));
+  }
+
+  function goTo(n) {
+    if (animating) return;
+    animating = true;
+    cur = ((n % N) + N) % N;
+    layout();
+    setTimeout(() => { animating = false; }, 640);
+    resetAuto();
+  }
+  function advance(d) { goTo(cur + d); }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => advance(1), 4500);
+  }
+
+  document.getElementById('farmNext').addEventListener('click', () => advance(1));
+  document.getElementById('farmPrev').addEventListener('click', () => advance(-1));
+
+  /* swipe */
+  let sx=0;
+  track.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; },{passive:true});
+  track.addEventListener('touchend',   e=>{ const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) advance(dx<0?1:-1); },{passive:true});
+
+  layout();
+  window.addEventListener('resize', layout);
+  resetAuto();
+})();
+</script>
 
 <!-- CTA -->
 <section class="section newsletter-section">
