@@ -95,11 +95,13 @@
   .btn-icon{width:44px;height:44px;padding:0;border-radius:100px;background:transparent;color:var(--dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
 
   body{padding-top:var(--nav-h)}
-  .page-hero{background:var(--green-900);padding:clamp(3rem,6vw,6rem) var(--gutter);text-align:center;position:relative;overflow:hidden}
-  .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(44,110,73,.35),transparent)}
-  .page-hero h1{font-family:var(--f-display);font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--white);position:relative;z-index:1}
+  .page-hero{padding:clamp(5rem,10vw,9rem) var(--gutter);text-align:center;position:relative;overflow:hidden;min-height:clamp(260px,38vw,480px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .page-hero__bg{position:absolute;inset:0;z-index:0}
+  .page-hero__bg img{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+  .page-hero__bg::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(7,28,17,.72) 0%,rgba(7,28,17,.52) 100%)}
+  .page-hero h1{font-family:var(--f-display);font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--white);position:relative;z-index:1;text-shadow:0 2px 24px rgba(0,0,0,.3)}
   .page-hero h1 em{font-style:italic;color:var(--gold)}
-  .page-hero p{font-size:1rem;color:rgba(255,255,255,.5);margin-top:1rem;position:relative;z-index:1}
+  .page-hero p{font-size:1rem;color:rgba(255,255,255,.65);margin-top:1rem;position:relative;z-index:1}
   .cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:clamp(4rem,8vw,8rem) var(--gutter);max-width:var(--max-w);margin-inline:auto}
   @media(max-width:900px){.cats-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:500px){.cats-grid{grid-template-columns:1fr}}
@@ -163,6 +165,9 @@
   </div>
 </nav>
 <div class="page-hero">
+  <div class="page-hero__bg">
+    <img src="img/farmacia-interior-amplio.jpg" alt="Interior Farmacia Los Robles" />
+  </div>
   <h1>Nuestra <em>tienda</em></h1>
   <p>Más de 5.000 productos · Distribuidores oficiales · Envío 24h</p>
 </div>
