@@ -157,10 +157,6 @@
               <span style="color:var(--c-gray-mid)">Envío</span>
               <span id="checkoutShipping" style="color:var(--c-green-soft);font-weight:600">Gratis</span>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:.875rem">
-              <span style="color:var(--c-gray-mid)">IVA (21%)</span>
-              <span id="checkoutTax">0,00 €</span>
-            </div>
           </div>
 
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:1rem;border-top:2px solid var(--c-green-deep)">
@@ -190,12 +186,10 @@
               </div>`).join('');
             const subtotal = items.reduce((s,i)=>s+i.price*i.qty, 0);
             const shipping = subtotal >= 29 ? 0 : 4.95;
-            const tax      = subtotal * 0.21;
-            const total    = subtotal + shipping + tax;
+            const total    = subtotal + shipping;
             const fmt = n => n.toFixed(2).replace('.',',') + ' €';
             document.getElementById('checkoutSubtotal').textContent = fmt(subtotal);
             document.getElementById('checkoutShipping').textContent = shipping===0 ? 'Gratis' : fmt(shipping);
-            document.getElementById('checkoutTax').textContent      = fmt(tax);
             document.getElementById('checkoutTotal').textContent    = fmt(total);
           })();
           </script>

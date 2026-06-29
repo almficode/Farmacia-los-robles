@@ -244,7 +244,7 @@
       background: #071C11;
     }
     #heroSpacer {
-      height: 320vh;
+      height: 420vh;
       pointer-events: none;
     }
     #hero {
@@ -368,16 +368,18 @@
       position:absolute;inset:0;z-index:6;
       display:flex;flex-direction:column;
       align-items:center;justify-content:center;
-      text-align:center;padding:2rem;
-      gap:2rem;
+      text-align:center;padding:clamp(1.5rem,5vw,4rem);
+      gap:1.5rem;
     }
     .hero-p2-quote {
-      font-family:var(--f-display);
-      font-size:clamp(3.2rem,9vw,11rem);
-      font-weight:300;line-height:.9;letter-spacing:-.04em;
-      color:var(--white);
+      font-family:var(--f-body,Inter,sans-serif);
+      font-size:clamp(.95rem,1.6vw,1.25rem);
+      font-weight:300;line-height:1.85;letter-spacing:.01em;
+      color:rgba(255,255,255,.88);
+      max-width:640px;
+      margin:0 auto;
     }
-    .hero-p2-quote em { font-style:italic;color:var(--gold);display:block; }
+    .hero-p2-quote em { font-style:normal;color:rgba(255,255,255,.88); }
 
     /* Badge horario */
     .hero-open-badge {
@@ -912,7 +914,7 @@
     </div>
     <div class="hero-p2-overlay" id="hP2Ov"></div>
     <div class="hero-p2-center" id="hP2Txt">
-      <p class="hero-p2-quote">15.000 familias<br>conf&iacute;an en<br><em>nosotros.</em></p>
+      <p class="hero-p2-quote">En 2004, abrimos las puertas de Farmacia Los Robles con una sola idea en mente: que cada persona que entrase se fuera sintiéndose realmente atendida. No solo con su medicación, sino con el consejo, la cercanía y la confianza de quien lleva años cuidando a su familia. Veinte años después, más de 15.000 familias de Lanzarote siguen eligiéndonos cada día. Y eso, para nosotros, es todo.</p>
       <a href="#about" class="btn btn-outline-white btn-lg"
          onclick="event.preventDefault();lenis&&lenis.scrollTo('#main-content',{offset:-40})">
         Conocer nuestra historia &#x2192;
@@ -1278,16 +1280,14 @@ function initHeroScroll() {
     .to('#hc2', { x: '-80vw', opacity: 0, duration: .75 }, 0.45)
     .to('#hc3', { x: '70vw', opacity: 0, duration: .75 }, 0.55)
 
-  // ── FASE 2: fotos vuelan desde las esquinas hacia su posición ──
-    .to('#heroP2', { opacity: 1, duration: .05 }, 2.2)
-    .to('#hCtl', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.3)
-    .to('#hCtr', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.5)
-    .to('#hCbl', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.7)
-    .to('#hCbr', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.9)
-    // Pantalla se oscurece
-    .to('#hP2Ov', { opacity: 1, duration: 1.0 }, 4.2)
-    // Texto aparece con escala desde pequeño
-    .to('#hP2Txt', { opacity: 1, scale: 1, duration: .9, ease: 'power3.out' }, 4.9);
+  // ── FASE 2: todo aparece a la vez ──
+    .to('#heroP2', { opacity: 1, duration: .05 }, 0.9)
+    .to('#hCtl',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
+    .to('#hCtr',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
+    .to('#hCbl',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
+    .to('#hCbr',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
+    .to('#hP2Ov', { opacity: 1, duration: 0.7 }, 0.9)
+    .to('#hP2Txt',{ opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' }, 0.9);
 
   // Hero se escala ligeramente hacia abajo cuando main-content sube
   gsap.to('#hero', {
