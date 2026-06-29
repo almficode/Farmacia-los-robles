@@ -822,7 +822,7 @@
 <aside class="cart-drawer" id="cartDrawer">
   <div class="cart-head"><h3 style="font-family:var(--f-display);font-size:1.375rem">Mi carrito</h3><button data-cart-close class="btn btn-icon btn-ghost">&#x2715;</button></div>
   <div class="cart-body"><div class="cart-empty"><div class="cart-empty-icon">&#x1F6D2;</div><p style="font-weight:600;margin-bottom:.25rem">Tu carrito está vacío</p><small style="color:var(--gray-600)">Añade productos para comenzar</small></div></div>
-  <div class="cart-foot"><div class="cart-total"><span>Total estimado</span><span>0,00 &#x20AC;</span></div><a href="checkout.html" class="btn btn-dark btn-lg" style="width:100%">Tramitar pedido &#x2192;</a></div>
+  <div class="cart-foot"><div class="cart-total"><span>Total estimado</span><span id="cartFootTotal">0,00 &#x20AC;</span></div><a href="checkout.html" class="btn btn-dark btn-lg" style="width:100%">Tramitar pedido &#x2192;</a></div>
 </aside>
 
 <!-- MOBILE MENU -->
@@ -1388,6 +1388,48 @@ function initSearch() {
 }
 
 /* ── CART ─────────────────────── */
+let _cartItems = JSON.parse(sessionStorage.getItem('farmCart') || '[]');
+
+function _renderCart() {
+  const body  = document.querySelector('.cart-body');
+  const total = document.getElementById('cartFootTotal');
+  if (!body) return;
+  if (!_cartItems.length) {
+    body.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p style="font-weight:600;margin-bottom:.25rem">Tu carrito está vacío</p><small style="color:var(--gray-600)">Añade productos para comenzar</small></div>';
+    if (total) total.textContent = '0,00 €';
+    return;
+  }
+  const sum = _cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+  body.innerHTML = _cartItems.map((item, i) => `
+    <div style="display:flex;gap:1rem;align-items:center;padding:.875rem 0;border-bottom:1px solid var(--gray-100)">
+      ${item.img ? `<img src="${item.img}" style="width:56px;height:56px;object-fit:contain;border-radius:8px;background:var(--gray-100);padding:.2rem;flex-shrink:0"/>` : '<div style="width:56px;height:56px;background:var(--gray-100);border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem">💊</div>'}
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.8rem;font-weight:600;line-height:1.3;margin-bottom:.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${item.title}</div>
+        <div style="font-size:.75rem;color:var(--gray-600)">${item.qty} × ${item.price.toFixed(2).replace('.', ',')} €</div>
+      </div>
+      <button onclick="_removeCart(${i})" style="background:none;border:none;cursor:pointer;color:var(--gray-600);font-size:1rem;padding:.25rem;flex-shrink:0">✕</button>
+    </div>`).join('');
+  if (total) total.textContent = sum.toFixed(2).replace('.', ',') + ' €';
+}
+
+window._removeCart = function(i) {
+  _cartItems.splice(i, 1);
+  sessionStorage.setItem('farmCart', JSON.stringify(_cartItems));
+  _renderCart();
+};
+
+window.addToCart = function(product) {
+  const existing = _cartItems.findIndex(i => i.handle === product.handle);
+  if (existing >= 0) _cartItems[existing].qty++;
+  else _cartItems.push({ ...product, qty: 1 });
+  sessionStorage.setItem('farmCart', JSON.stringify(_cartItems));
+  _renderCart();
+  showToast('¡Añadido al carrito! 🛒');
+  const ov = document.getElementById('cartOverlay');
+  const dr = document.getElementById('cartDrawer');
+  ov.classList.add('open'); dr.classList.add('open'); document.body.style.overflow = 'hidden';
+};
+
 function initCart() {
   const ov = document.getElementById('cartOverlay');
   const dr = document.getElementById('cartDrawer');
@@ -1396,7 +1438,7 @@ function initCart() {
   document.querySelectorAll('[data-cart]').forEach(b => b.addEventListener('click', open));
   ov.addEventListener('click', close);
   document.querySelectorAll('[data-cart-close]').forEach(b => b.addEventListener('click', close));
-  document.querySelectorAll('[data-add-cart]').forEach(b => b.addEventListener('click', () => { showToast('¡Añadido al carrito! 🛒'); open(); }));
+  _renderCart();
 }
 
 /* ── TOAST ────────────────────── */
@@ -1475,7 +1517,7 @@ window.filterProds = function(btn, cat) {
             ${was ? `<span class="pcard__badge pcard__badge--sale">-${discount}%</span>` : ''}
           </div>
           <button class="pcard__wish" onclick="event.preventDefault()">♡</button>
-          ${available ? `<button class="btn btn-dark btn-sm pcard__cta" onclick="event.preventDefault();showToast('¡Añadido al carrito! 🛒');document.querySelector('[data-cart]').click()">+ Añadir</button>` : ''}
+          ${available ? `<button class="btn btn-dark btn-sm pcard__cta" onclick="event.preventDefault();addToCart({handle:'${p.handle}',title:${JSON.stringify(p.title)},price:${price},img:'${img ? img.url : ''}'})">+ Añadir</button>` : ''}
         </div>
         <div class="pcard__info">
           <div class="pcard__brand">${p.vendor}</div>
