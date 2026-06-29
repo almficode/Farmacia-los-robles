@@ -154,21 +154,6 @@
   <h1>Nuestra <em>tienda</em></h1>
   <p>Más de 5.000 productos · Distribuidores oficiales · Envío 24h</p>
 </div>
-<!-- PRODUCTS SECTION -->
-<section style="padding:clamp(4rem,8vw,7rem) var(--gutter);max-width:var(--max-w);margin-inline:auto">
-  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem">
-    <h2 style="font-family:var(--f-display);font-size:clamp(2rem,4vw,3rem);font-weight:400">Productos <em style="font-style:italic;color:var(--gold)">destacados</em></h2>
-    <span id="productCount" style="font-size:.8125rem;color:var(--gray-600)"></span>
-  </div>
-  <div id="productsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem">
-    <!-- skeleton cards while loading -->
-    <div class="pcard" style="animation:pulse 1.5s ease-in-out infinite"><div class="pcard__media" style="background:#eee"></div><div class="pcard__info"><div style="height:12px;background:#eee;border-radius:4px;margin-bottom:.5rem;width:40%"></div><div style="height:16px;background:#eee;border-radius:4px;margin-bottom:.5rem"></div><div style="height:16px;background:#eee;border-radius:4px;width:60%"></div></div></div>
-    <div class="pcard" style="animation:pulse 1.5s ease-in-out .2s infinite"><div class="pcard__media" style="background:#eee"></div><div class="pcard__info"><div style="height:12px;background:#eee;border-radius:4px;margin-bottom:.5rem;width:40%"></div><div style="height:16px;background:#eee;border-radius:4px;margin-bottom:.5rem"></div><div style="height:16px;background:#eee;border-radius:4px;width:60%"></div></div></div>
-    <div class="pcard" style="animation:pulse 1.5s ease-in-out .4s infinite"><div class="pcard__media" style="background:#eee"></div><div class="pcard__info"><div style="height:12px;background:#eee;border-radius:4px;margin-bottom:.5rem;width:40%"></div><div style="height:16px;background:#eee;border-radius:4px;margin-bottom:.5rem"></div><div style="height:16px;background:#eee;border-radius:4px;width:60%"></div></div></div>
-    <div class="pcard" style="animation:pulse 1.5s ease-in-out .6s infinite"><div class="pcard__media" style="background:#eee"></div><div class="pcard__info"><div style="height:12px;background:#eee;border-radius:4px;margin-bottom:.5rem;width:40%"></div><div style="height:16px;background:#eee;border-radius:4px;margin-bottom:.5rem"></div><div style="height:16px;background:#eee;border-radius:4px;width:60%"></div></div></div>
-  </div>
-</section>
-<style>@media(max-width:900px){#productsGrid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:500px){#productsGrid{grid-template-columns:1fr!important}}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}</style>
 <div class="cats-grid">
     <a href="cat-cosmetica.html" class="catcard anim-up" data-delay="0.00">
       <div class="catcard__media">
@@ -284,52 +269,6 @@ document.querySelectorAll('[data-cart]').forEach(b=>b.addEventListener('click',o
 co.addEventListener('click',closeCart);
 document.querySelectorAll('[data-cart-close]').forEach(b=>b.addEventListener('click',closeCart));
 document.querySelectorAll('[data-add-cart]').forEach(b=>b.addEventListener('click',()=>{showToast('¡Añadido al carrito! 🛒');openCart()}));
-// Shopify Storefront API
-(async()=>{
-  const SHOP='a8ck6a-t6.myshopify.com';
-  const TOKEN='db3d07fd2f93e53129fa1462ece7958a';
-  const query=`{products(first:20){edges{node{id handle title vendor priceRange{minVariantPrice{amount currencyCode}}compareAtPriceRange{minVariantPrice{amount}}images(first:1){edges{node{url altText}}}variants(first:1){edges{node{id availableForSale}}}}}}}`;
-  try{
-    const res=await fetch(`https://${SHOP}/api/2024-01/graphql.json`,{method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':TOKEN},body:JSON.stringify({query})});
-    const {data}=await res.json();
-    const products=data?.products?.edges||[];
-    const grid=document.getElementById('productsGrid');
-    const count=document.getElementById('productCount');
-    if(!products.length){grid.innerHTML='<p style="color:var(--gray-600);grid-column:1/-1">No se encontraron productos.</p>';return;}
-    count.textContent=products.length+' productos';
-    grid.innerHTML=products.map(({node:p},i)=>{
-      const img=p.images.edges[0]?.node;
-      const price=parseFloat(p.priceRange.minVariantPrice.amount);
-      const wasPrice=parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount||0);
-      const hasSale=wasPrice>0&&wasPrice>price;
-      const variantId=p.variants.edges[0]?.node?.id||'';
-      const available=p.variants.edges[0]?.node?.availableForSale!==false;
-      return`<a href="producto.html?handle=${p.handle}" class="pcard anim-up" data-delay="${(i%4)*0.07}" data-variant="${variantId}" style="display:block;color:inherit;text-decoration:none">
-        <div class="pcard__media">
-          ${img?`<div class="pcard__media-inner" style="width:100%;height:100%;position:absolute;inset:0"><img src="${img.url}" alt="${img.altText||p.title}" style="width:100%;height:100%;object-fit:cover" /></div>`:`<div class="pcard__media-inner" style="font-size:4rem">💊</div>`}
-          <div class="pcard__badges">${hasSale?'<span class="pcard__badge pcard__badge--sale">OFERTA</span>':''}${!available?'<span class="pcard__badge" style="background:var(--gray-600);color:#fff">Sin stock</span>':''}</div>
-          <button class="pcard__wish">♡</button>
-          ${available?`<button class="btn btn-gold btn-sm pcard__cta" data-add-cart data-variant="${variantId}">Añadir al carrito</button>`:''}
-        </div>
-        <div class="pcard__info">
-          <div class="pcard__brand">${p.vendor}</div>
-          <div class="pcard__name">${p.title}</div>
-          <div class="pcard__price">
-            <span class="pcard__price-now">${price.toFixed(2).replace('.',',')} €</span>
-            ${hasSale?`<span class="pcard__price-was">${wasPrice.toFixed(2).replace('.',',')} €</span>`:''}
-          </div>
-        </div>
-      </div>
-      </a>`;
-    }).join('');
-    // re-bind add-to-cart on new cards
-    grid.querySelectorAll('[data-add-cart]').forEach(b=>b.addEventListener('click',()=>{showToast('¡Añadido al carrito! 🛒');openCart()}));
-    // re-trigger scroll reveals
-    gsap.utils.toArray('#productsGrid .anim-up').forEach(el=>{
-      gsap.to(el,{y:0,opacity:1,duration:1,ease:'power3.out',delay:parseFloat(el.dataset.delay||0),scrollTrigger:{trigger:el,start:'top 90%',once:true}});
-    });
-  }catch(e){console.error('Shopify fetch error',e);document.getElementById('productsGrid').innerHTML='<p style="color:var(--gray-600);grid-column:1/-1">Error al cargar productos. Inténtalo de nuevo.</p>';}
-})();
 // Toast
 window.showToast=msg=>{const c=document.querySelector('.toasts');const t=document.createElement('div');t.className='toast';t.innerHTML='<span>✓</span><span>'+msg+'</span>';c.appendChild(t);setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),350)},3200)};
 </script>
