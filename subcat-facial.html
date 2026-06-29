@@ -236,14 +236,14 @@ window.addEventListener('load',()=>{
 (async()=>{
   const SHOP='a8ck6a-t6.myshopify.com';
   const TOKEN='db3d07fd2f93e53129fa1462ece7958a';
-  const query=`{products(first:50){edges{node{id handle title vendor priceRange{minVariantPrice{amount}}compareAtPriceRange{minVariantPrice{amount}}images(first:1){edges{node{url altText}}}variants(first:1){edges{node{availableForSale}}}}}}}`;
+  const query=`{collection(handle:"facial"){products(first:50){edges{node{id handle title vendor priceRange{minVariantPrice{amount}}compareAtPriceRange{minVariantPrice{amount}}images(first:1){edges{node{url altText}}}variants(first:1){edges{node{availableForSale}}}}}}}}`;
   try{
     const res=await fetch(`https://${SHOP}/api/2024-01/graphql.json`,{method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':TOKEN},body:JSON.stringify({query})});
     const {data}=await res.json();
-    const products=data?.products?.edges||[];
+    const products=data?.collection?.products?.edges||[];
     const grid=document.getElementById('productsGrid');
     const countEl=document.getElementById('productCount');
-    if(!products.length){grid.innerHTML='<p style="grid-column:1/-1;color:var(--gray-600)">No hay productos disponibles.</p>';return;}
+    if(!products.length){grid.innerHTML='<p style="grid-column:1/-1;color:var(--gray-600)">No hay productos en esta categoría todavía. Crea la colección "facial" en Shopify y asigna productos a ella.</p>';return;}
     countEl.textContent=products.length+' productos encontrados';
     grid.innerHTML=products.map(({node:p},i)=>{
       const img=p.images.edges[0]?.node;

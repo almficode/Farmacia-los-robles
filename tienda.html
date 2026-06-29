@@ -105,7 +105,10 @@
   @media(max-width:500px){.cats-grid{grid-template-columns:1fr}}
   .catcard{border-radius:24px;overflow:hidden;background:var(--white);border:1px solid rgba(0,0,0,.05);transition:transform .4s var(--ease-out-expo),box-shadow .4s;text-decoration:none;color:inherit;display:flex;flex-direction:column}
   .catcard:hover{transform:translateY(-10px);box-shadow:0 28px 72px rgba(0,0,0,.12)}
-  .catcard__media{aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative}
+  .catcard__media{aspect-ratio:3/2;position:relative;overflow:hidden}
+  .catcard__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease-out-expo)}
+  .catcard:hover .catcard__media img{transform:scale(1.07)}
+  .catcard__media-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(7,28,17,.18),rgba(7,28,17,.55))}
   .catcard__count{position:absolute;top:1rem;right:1rem;padding:.3rem .75rem;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--dark)}
   .catcard__info{padding:1.5rem}
   .catcard__name{font-family:var(--f-display);font-size:1.375rem;font-weight:500;margin-bottom:.375rem}
@@ -168,8 +171,9 @@
 <style>@media(max-width:900px){#productsGrid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:500px){#productsGrid{grid-template-columns:1fr!important}}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}</style>
 <div class="cats-grid">
     <a href="cat-cosmetica.html" class="catcard anim-up" data-delay="0.00">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#F3E8FF,#E9D5FF)">
-        <span>💄</span>
+      <div class="catcard__media">
+        <img src="img/producto-lazartigue-display.jpg" alt="Cosmética y Belleza" />
+        <div class="catcard__media-overlay"></div>
         <span class="catcard__count">10 subcategorías</span>
       </div>
       <div class="catcard__info">
@@ -179,8 +183,9 @@
       </div>
     </a>
     <a href="cat-higiene.html" class="catcard anim-up" data-delay="0.07">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)">
-        <span>🫧</span>
+      <div class="catcard__media">
+        <img src="img/farmacia-interior-mostrador.jpg" alt="Higiene y Salud" />
+        <div class="catcard__media-overlay"></div>
         <span class="catcard__count">7 subcategorías</span>
       </div>
       <div class="catcard__info">
@@ -190,8 +195,9 @@
       </div>
     </a>
     <a href="cat-infantil.html" class="catcard anim-up" data-delay="0.14">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)">
-        <span>👶</span>
+      <div class="catcard__media">
+        <img src="img/farmacia-seccion-infantil.jpg" alt="Infantil" />
+        <div class="catcard__media-overlay"></div>
         <span class="catcard__count">7 subcategorías</span>
       </div>
       <div class="catcard__info">
@@ -201,8 +207,9 @@
       </div>
     </a>
     <a href="cat-nutricion.html" class="catcard anim-up" data-delay="0.21">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#DCFCE7,#BBF7D0)">
-        <span>💊</span>
+      <div class="catcard__media">
+        <img src="img/farmacia-interior-amplio.jpg" alt="Nutrición" />
+        <div class="catcard__media-overlay"></div>
         <span class="catcard__count">4 subcategorías</span>
       </div>
       <div class="catcard__info">
@@ -212,8 +219,9 @@
       </div>
     </a>
     <a href="cat-covid.html" class="catcard anim-up" data-delay="0.28">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD)">
-        <span>😷</span>
+      <div class="catcard__media">
+        <img src="img/farmacia-interior-panorama.jpg" alt="Covid-19" />
+        <div class="catcard__media-overlay"></div>
         <span class="catcard__count">2 subcategorías</span>
       </div>
       <div class="catcard__info">
@@ -223,9 +231,10 @@
       </div>
     </a>
     <a href="cat-accesorios.html" class="catcard anim-up" data-delay="0.35">
-      <div class="catcard__media" style="background:linear-gradient(135deg,#FDF2F8,#FBCFE8)">
-        <span>💎</span>
-        <span class="catcard__count">1 subcategorías</span>
+      <div class="catcard__media">
+        <img src="img/farmacia-beter.jpg" alt="Accesorios de Belleza" />
+        <div class="catcard__media-overlay"></div>
+        <span class="catcard__count">1 subcategoría</span>
       </div>
       <div class="catcard__info">
         <div class="catcard__name">Accesorios de Belleza</div>
