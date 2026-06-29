@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi cuenta — Farmacia Los Robles Lanzarote</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<div class="custom-cursor" aria-hidden="true"><div class="cursor-dot" style="position:absolute"></div><div class="cursor-ring" style="position:absolute"></div></div>
+<div class="toast-container"></div>
+
+<div class="auth-page">
+  <!-- Visual side -->
+  <div class="auth-visual">
+    <div style="position:relative;z-index:2;text-align:center">
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:.75rem;margin-bottom:3rem">
+        <div style="width:48px;height:48px;background:var(--c-white);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--c-green-deep);font-family:var(--f-display);font-size:1.25rem;font-weight:700">FR</div>
+        <span style="font-family:var(--f-display);font-size:1.5rem;color:var(--c-white)">Los Robles</span>
+      </a>
+      <h1 class="display-2" style="color:var(--c-white);margin-bottom:1.5rem">Tu farmacia,<br><em style="color:var(--c-gold-light);font-style:italic">siempre contigo</em></h1>
+      <p style="color:rgba(255,255,255,.65);font-size:1.125rem;max-width:380px;margin:0 auto 3rem">Accede a tu historial de pedidos, listas de favoritos y asesoramiento personalizado.</p>
+
+      <div style="display:flex;justify-content:center;gap:2rem">
+        <div style="text-align:center">
+          <div style="font-family:var(--f-display);font-size:2.5rem;color:var(--c-white);font-weight:300">10k+</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em">Productos</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-family:var(--f-display);font-size:2.5rem;color:var(--c-white);font-weight:300">24h</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em">Envío</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-family:var(--f-display);font-size:2.5rem;color:var(--c-white);font-weight:300">98%</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em">Satisfacción</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form side -->
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <!-- Tabs -->
+      <div style="display:flex;gap:0;background:var(--c-gray-ghost);border-radius:var(--r-full);padding:.25rem;margin-bottom:2.5rem">
+        <button id="tab-login" onclick="authTab('login')" style="flex:1;padding:.75rem;border-radius:var(--r-full);font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:var(--shadow-xs);transition:all .2s">Iniciar sesión</button>
+        <button id="tab-register" onclick="authTab('register')" style="flex:1;padding:.75rem;border-radius:var(--r-full);font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s">Crear cuenta</button>
+      </div>
+
+      <!-- Login form -->
+      <div id="form-login">
+        <h2 style="font-family:var(--f-display);font-size:2rem;margin-bottom:.5rem">Bienvenido de nuevo</h2>
+        <p style="color:var(--c-gray-mid);font-size:.875rem;margin-bottom:2rem">Accede a tu cuenta para gestionar tus pedidos.</p>
+
+        <form novalidate>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="tu@email.com" />
+          </div>
+          <div class="form-group" style="position:relative">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-input" placeholder="••••••••" id="pwdInput" />
+            <button type="button" onclick="togglePwd()" style="position:absolute;right:1rem;bottom:.875rem;font-size:18px;color:var(--c-gray-mid)">👁</button>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+            <label style="display:flex;align-items:center;gap:.5rem;font-size:.875rem;cursor:pointer">
+              <input type="checkbox" style="accent-color:var(--c-green-soft)"> Recordarme
+            </label>
+            <a href="#" style="font-size:.875rem;color:var(--c-green-soft)">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" onclick="event.preventDefault();showToast('Funcionalidad conectada con Shopify','success')">
+            Iniciar sesión →
+          </button>
+        </form>
+
+        <div style="margin:1.5rem 0;display:flex;align-items:center;gap:1rem">
+          <div style="flex:1;height:1px;background:var(--c-gray-light)"></div>
+          <span style="font-size:.75rem;color:var(--c-gray-mid)">o continúa con</span>
+          <div style="flex:1;height:1px;background:var(--c-gray-light)"></div>
+        </div>
+
+        <div style="display:flex;gap:.75rem">
+          <button class="btn btn--ghost" style="flex:1;justify-content:center;gap:.5rem">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </button>
+          <button class="btn btn--ghost" style="flex:1;justify-content:center;gap:.5rem">
+            <svg width="18" height="18" fill="#1877F2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </button>
+        </div>
+      </div>
+
+      <!-- Register form -->
+      <div id="form-register" style="display:none">
+        <h2 style="font-family:var(--f-display);font-size:2rem;margin-bottom:.5rem">Crea tu cuenta</h2>
+        <p style="color:var(--c-gray-mid);font-size:.875rem;margin-bottom:2rem">Únete y disfruta de ventajas exclusivas.</p>
+
+        <form novalidate>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group"><label class="form-label">Nombre</label><input type="text" class="form-input" placeholder="Tu nombre" /></div>
+            <div class="form-group"><label class="form-label">Apellidos</label><input type="text" class="form-input" placeholder="Apellidos" /></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="tu@email.com" /></div>
+          <div class="form-group"><label class="form-label">Contraseña</label><input type="password" class="form-input" placeholder="Mínimo 8 caracteres" /></div>
+          <div class="form-group"><label class="form-label">Confirmar contraseña</label><input type="password" class="form-input" placeholder="Repite tu contraseña" /></div>
+          <div style="margin-bottom:1.5rem">
+            <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;color:var(--c-gray-mid);cursor:pointer">
+              <input type="checkbox" style="accent-color:var(--c-green-soft);margin-top:2px" required>
+              Acepto los <a href="#" style="color:var(--c-green-soft)">Términos y condiciones</a> y la <a href="#" style="color:var(--c-green-soft)">Política de privacidad</a>
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" onclick="event.preventDefault();showToast('Cuenta creada correctamente','success')">
+            Crear cuenta →
+          </button>
+        </form>
+      </div>
+
+      <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--c-gray-mid)">
+        ¿Necesitas ayuda? <a href="contacto.html" style="color:var(--c-green-soft)">Contáctanos</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+function authTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('form-register').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('tab-login').style.cssText = isLogin
+    ? 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .2s'
+    : 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s';
+  document.getElementById('tab-register').style.cssText = !isLogin
+    ? 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .2s'
+    : 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s';
+}
+function togglePwd() {
+  const i = document.getElementById('pwdInput');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>

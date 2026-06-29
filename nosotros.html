@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosotros — Farmacia Los Robles Lanzarote</title>
+  <link rel="icon" type="image/png" href="Favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<div class="custom-cursor" aria-hidden="true"><div class="cursor-dot" style="position:absolute"></div><div class="cursor-ring" style="position:absolute"></div></div>
+<div class="toast-container"></div>
+<div class="search-overlay"><button class="search-close">✕</button><div class="search-overlay__inner"><form class="search-form"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--c-gray-mid);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="search" placeholder="Buscar…" /><button type="submit" class="btn btn--primary btn--sm">Buscar</button></form></div></div>
+<nav class="mobile-nav"><div class="mobile-nav__header"><div class="nav__logo"><img src="img/farmacia-logo.jpg" alt="Farmacia Los Robles" style="height:32px;width:32px;object-fit:cover;border-radius:8px" /><span style="color:var(--c-white);font-family:var(--f-display);font-size:1.25rem">Los Robles</span></div><button class="mobile-nav__close">✕</button></div><div class="mobile-nav__links"><a href="index.html" class="mobile-nav__link">Inicio</a><a href="tienda.html" class="mobile-nav__link">Tienda</a><a href="nosotros.html" class="mobile-nav__link">Nosotros</a><a href="blog.html" class="mobile-nav__link">Blog</a><a href="contacto.html" class="mobile-nav__link">Contacto</a></div><div class="mobile-nav__footer"><a href="cuenta.html" class="btn btn--outline-white">Mi cuenta</a></div></nav>
+<div class="cart-overlay"></div>
+<aside class="cart-drawer"><div class="cart-header"><h3>Mi carrito</h3><button data-cart-close class="btn btn--icon btn--ghost">✕</button></div><div class="cart-items"></div><div class="cart-footer"><div class="cart-total"><span class="cart-total__label">Total</span><span class="cart-total__value">0,00 €</span></div><a href="checkout.html" class="btn btn--primary btn--lg" style="width:100%;justify-content:center">Tramitar pedido →</a></div></aside>
+
+<header class="site-header site-header--transparent" data-transparent="1">
+  <nav class="nav">
+    <a href="index.html" class="nav__logo nav__logo--white"><img src="img/farmacia-logo.jpg" alt="Farmacia Los Robles" style="height:32px;width:32px;object-fit:cover;border-radius:8px" /><span>Los Robles</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="nav__link nav__link--white">Inicio</a></li>
+      <li><a href="tienda.html" class="nav__link nav__link--white">Tienda</a></li>
+      <li><a href="nosotros.html" class="nav__link nav__link--white active">Nosotros</a></li>
+      <li><a href="blog.html" class="nav__link nav__link--white">Blog</a></li>
+      <li><a href="contacto.html" class="nav__link nav__link--white">Contacto</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav__action-btn nav__action-btn--white" data-search><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <a href="cuenta.html" class="nav__action-btn nav__action-btn--white"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="nav__action-btn nav__action-btn--white" data-cart><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+      <button class="nav__mobile-toggle nav__action-btn--white"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO + HISTORIA unificados -->
+<section style="background:#071C11;position:relative;overflow:hidden">
+
+  <!-- Foto de fondo con overlay -->
+  <div style="position:absolute;inset:0;z-index:0">
+    <img src="img/farmacia-interior-panorama.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.22;display:block" />
+  </div>
+
+  <!-- Bloque hero editorial -->
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(7rem,14vh,10rem) clamp(1.5rem,5vw,4rem) clamp(4rem,8vh,6rem)">
+
+    <h1 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(3rem,7vw,7rem);font-weight:900;line-height:.95;letter-spacing:-.03em;color:#fff;margin:0 0 2rem;max-width:800px">
+      Más de 20 años<br><em style="font-style:italic;color:#C8A96E">cuidando de ti.</em>
+    </h1>
+
+    <p style="font-family:'Inter',sans-serif;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.8;color:rgba(255,255,255,.6);max-width:520px;margin:0">
+      Somos una farmacia familiar lanzaroteña que combina el trato cercano con la mejor selección de productos de salud, cosmética y bienestar.
+    </p>
+  </div>
+
+  <!-- Bloque historia — split dentro de la misma sección oscura -->
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.5rem,5vw,4rem) clamp(5rem,10vh,8rem);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+
+    <div style="position:relative">
+      <div style="border-radius:2rem;overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px rgba(0,0,0,.5)">
+        <img src="img/farmacia-exterior.jpg" alt="Exterior Farmacia Los Robles Lanzarote" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+      <div style="position:absolute;bottom:-1.5rem;left:2rem;background:rgba(200,169,110,.15);backdrop-filter:blur(20px);border:1px solid rgba(200,169,110,.3);color:#fff;border-radius:1.5rem;padding:1.25rem 1.75rem;text-align:center">
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:2.5rem;font-weight:900;color:#C8A96E;line-height:1">2004</div>
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.35rem">Año de apertura</div>
+      </div>
+    </div>
+
+    <div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;color:#fff;margin:0 0 1.5rem">
+        Una farmacia con<br><em style="font-style:italic;color:#C8A96E">corazón lanzaroteño.</em>
+      </h2>
+      <p style="color:rgba(255,255,255,.55);line-height:1.85;margin-bottom:1.25rem;font-size:.97rem">
+        Farmacia Los Robles nació en 2004 con una misión clara: ofrecer a los vecinos de Lanzarote un servicio farmacéutico de máxima calidad, cercano y de confianza. Desde el primer día, hemos combinado el rigor científico con el trato humano.
+      </p>
+      <p style="color:rgba(255,255,255,.55);line-height:1.85;margin-bottom:1.25rem;font-size:.97rem">
+        En 2020 dimos el salto digital con nuestra tienda online, manteniendo siempre el mismo compromiso: que cada cliente se sienta acompañado en sus decisiones de salud y bienestar.
+      </p>
+      <p style="color:rgba(255,255,255,.55);line-height:1.85;font-size:.97rem">
+        Hoy somos un equipo de farmacéuticos y técnicos especializados en distintas áreas, desde dermofarmacia hasta nutrición, siempre a tu servicio.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- VALORES -->
+<section style="background:#FDFCF9;padding:clamp(5rem,10vh,8rem) clamp(1.5rem,5vw,4rem)">
+  <div style="max-width:1200px;margin:0 auto">
+
+    <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;color:#071C11;margin:0 0 3.5rem;max-width:540px">
+      Los valores que<br><em style="font-style:italic;color:#C8A96E">nos guían cada día.</em>
+    </h2>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+
+      <!-- Confianza -->
+      <div style="border-radius:1.5rem;overflow:hidden;background:#fff;box-shadow:0 4px 40px rgba(0,0,0,.06)">
+        <div style="aspect-ratio:4/3;overflow:hidden">
+          <img src="img/farmacia-interior-mostrador.jpg" alt="Confianza" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+        </div>
+        <div style="padding:2rem">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:3.5rem;font-weight:900;color:rgba(7,28,17,.06);line-height:1;margin-bottom:.5rem">01</div>
+          <h3 style="font-family:Georgia,'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:#071C11;margin:0 0 .75rem;letter-spacing:-.01em">Confianza</h3>
+          <p style="color:rgba(7,28,17,.55);font-size:.9rem;line-height:1.75;margin:0">Solo vendemos productos originales de laboratorios y distribuidores certificados. Nunca comprometemos la seguridad de nuestros clientes.</p>
+        </div>
+      </div>
+
+      <!-- Cercanía -->
+      <div style="border-radius:1.5rem;overflow:hidden;background:#fff;box-shadow:0 4px 40px rgba(0,0,0,.06)">
+        <div style="aspect-ratio:4/3;overflow:hidden">
+          <img src="img/farmacia-seccion-infantil.jpg" alt="Cercanía" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+        </div>
+        <div style="padding:2rem">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:3.5rem;font-weight:900;color:rgba(7,28,17,.06);line-height:1;margin-bottom:.5rem">02</div>
+          <h3 style="font-family:Georgia,'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:#071C11;margin:0 0 .75rem;letter-spacing:-.01em">Cercanía</h3>
+          <p style="color:rgba(7,28,17,.55);font-size:.9rem;line-height:1.75;margin:0">Somos farmacéuticos de barrio accesibles por teléfono, WhatsApp o chat. Siempre hay alguien disponible para resolver tus dudas.</p>
+        </div>
+      </div>
+
+      <!-- Excelencia -->
+      <div style="border-radius:1.5rem;overflow:hidden;background:#fff;box-shadow:0 4px 40px rgba(0,0,0,.06)">
+        <div style="aspect-ratio:4/3;overflow:hidden">
+          <img src="img/producto-lazartigue-display.jpg" alt="Excelencia" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+        </div>
+        <div style="padding:2rem">
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:3.5rem;font-weight:900;color:rgba(7,28,17,.06);line-height:1;margin-bottom:.5rem">03</div>
+          <h3 style="font-family:Georgia,'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:#071C11;margin:0 0 .75rem;letter-spacing:-.01em">Excelencia</h3>
+          <p style="color:rgba(7,28,17,.55);font-size:.9rem;line-height:1.75;margin:0">Formación continua, selección rigurosa de productos y un servicio que no se conforma con el mínimo. Queremos ser tu mejor opción.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section class="section" style="background:var(--c-white)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-header__left">
+        <h2 class="h2" style="font-family:'Playfair Display',Georgia,serif">Las personas detrás de la farmacia</h2>
+        <p class="lead">Farmacéuticos y técnicos especializados con una cosa en común: pasión por ayudarte.</p>
+      </div>
+    </div>
+    <div class="team-grid stagger">
+      <div class="team-card">
+        <div class="team-card__photo">
+          <img src="img/farmacia-interior-panorama.jpg" alt="Interior Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div class="team-card__overlay"><span style="color:#fff;font-size:.75rem">Ver perfil</span></div>
+        </div>
+        <h3 class="team-card__name">Dra. Ana Martín</h3>
+        <p class="team-card__role">Directora Técnica · Dermofarmacia</p>
+      </div>
+      <div class="team-card">
+        <div class="team-card__photo">
+          <img src="img/farmacia-interior-mostrador.jpg" alt="Mostrador Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div class="team-card__overlay"><span style="color:#fff;font-size:.75rem">Ver perfil</span></div>
+        </div>
+        <h3 class="team-card__name">Dr. Carlos Pérez</h3>
+        <p class="team-card__role">Farmacéutico · Nutrición</p>
+      </div>
+      <div class="team-card">
+        <div class="team-card__photo">
+          <img src="img/farmacia-interior-optica.jpg" alt="Sección óptica Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div class="team-card__overlay"><span style="color:#fff;font-size:.75rem">Ver perfil</span></div>
+        </div>
+        <h3 class="team-card__name">Dra. Laura Gómez</h3>
+        <p class="team-card__role">Farmacéutica · Cosmética</p>
+      </div>
+      <div class="team-card">
+        <div class="team-card__photo">
+          <img src="img/farmacia-seccion-infantil.jpg" alt="Sección infantil Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div class="team-card__overlay"><span style="color:#fff;font-size:.75rem">Ver perfil</span></div>
+        </div>
+        <h3 class="team-card__name">Dr. Miguel Torres</h3>
+        <p class="team-card__role">Farmacéutico · Ortopedia</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA DE LA FARMACIA -->
+<section class="section" style="background:#FDFCF9;padding-block:5rem">
+  <div class="container">
+    <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;color:#071C11;margin:0 0 3rem">
+      Un espacio pensado<br><em style="font-style:italic;color:#C8A96E">para ti.</em>
+    </h2>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:1rem">
+      <div style="grid-row:1/3;border-radius:1.5rem;overflow:hidden;aspect-ratio:3/4">
+        <img src="img/farmacia-interior-amplio.jpg" alt="Interior amplio Farmacia Los Robles" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
+        <img src="img/producto-nuxe.jpg" alt="Productos Nuxe" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
+        <img src="img/farmacia-interior-optica.jpg" alt="Sección óptica" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
+        <img src="img/producto-lazartigue-display.jpg" alt="Display productos Lazartigue" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+      <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3">
+        <img src="img/farmacia-seccion-infantil.jpg" alt="Sección infantil" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem">
+      <a href="tienda.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C8A96E;color:#fff;font-weight:600;font-size:.95rem;padding:.9rem 2.25rem;border-radius:999px;text-decoration:none;letter-spacing:.02em">
+        Ver todos los productos →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section newsletter-section">
+  <div class="container">
+    <div class="newsletter-inner reveal" style="max-width:640px">
+      <h2 class="h2" style="color:var(--c-white);font-family:'Playfair Display',Georgia,serif">Estamos aquí para ayudarte</h2>
+      <p class="lead" style="color:rgba(255,255,255,.65);margin-bottom:2.5rem">Consulta con nuestros farmacéuticos por WhatsApp, teléfono o visítanos en la farmacia. Sin cita previa.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="contacto.html" class="btn btn--gold btn--lg">Contactar ahora →</a>
+        <a href="tel:+34928597161" class="btn btn--outline-white btn--lg">📞 928 597 161</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand"><div class="footer__logo"><img src="img/farmacia-logo.jpg" alt="Farmacia Los Robles" style="height:36px;width:36px;object-fit:cover;border-radius:9px" /><span class="footer__logo-text">Los Robles</span></div><p>Tu farmacia de confianza en Lanzarote.</p></div>
+      <div><h3 class="footer__col-title">Tienda</h3><ul class="footer__links"><li><a href="tienda.html" class="footer__link">Todos los productos</a></li></ul></div>
+      <div><h3 class="footer__col-title">Farmacia</h3><ul class="footer__links"><li><a href="nosotros.html" class="footer__link">Nosotros</a></li><li><a href="blog.html" class="footer__link">Blog</a></li></ul></div>
+      <div><h3 class="footer__col-title">Ayuda</h3><ul class="footer__links"><li><a href="contacto.html" class="footer__link">Contacto</a></li></ul></div>
+      <div><h3 class="footer__col-title">Contacto</h3><div class="footer__hours" style="font-size:.875rem;color:rgba(255,255,255,.5)"><div>Lun–Vie: 8:00–22:00</div><div>928 597 161</div></div></div>
+    </div>
+    <div class="footer__bottom"><p>© 2025 Farmacia Los Robles Lanzarote.</p><div class="footer__payments"><div class="payment-badge">VISA</div><div class="payment-badge">MC</div><div class="payment-badge">🔒 SSL</div></div><div class="footer__legal"><a href="#">Privacidad</a></div></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/34928597161" class="whatsapp-fab" target="_blank"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<button class="back-to-top"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></button>
+<script src="js/main.js"></script>
+</body>
+</html>

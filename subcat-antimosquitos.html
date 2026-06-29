@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Antimosquitos — Farmacia Los Robles Lanzarote</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  :root{--green-900:#071C11;--green-800:#0F2E1E;--green-700:#174A2E;--green-600:#2C6E49;--green-100:#D4EDE1;--green-50:#EDF7F2;--gold:#C8A96E;--cream-50:#FDFCF9;--white:#FFF;--dark:#0A0A0A;--gray-600:#6B7280;--gray-200:#E5E7EB;--f-display:'Cormorant Garamond',Georgia,serif;--f-sans:'Inter',system-ui,sans-serif;--max-w:1400px;--gutter:clamp(1.25rem,4vw,3rem);--nav-h:72px;--ease-out-expo:cubic-bezier(.16,1,.3,1)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{font-family:var(--f-sans);color:var(--dark);background:var(--cream-50)}
+  body{overflow-x:hidden}
+  .wrap{max-width:var(--max-w);margin-inline:auto;padding-inline:var(--gutter)}
+  a{text-decoration:none;color:inherit}
+  /* NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(7,28,17,.95);backdrop-filter:blur(20px);display:flex;align-items:center}
+  .nav__inner{display:flex;align-items:center;width:100%;gap:2rem}
+  .nav__logo{display:flex;align-items:center;gap:.75rem;font-family:var(--f-display);font-size:1.25rem;font-weight:500;color:var(--white)}
+  .nav__logo-badge{width:36px;height:36px;background:var(--green-700);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--white)}
+  .nav__links{display:flex;gap:2.5rem;margin-left:auto;list-style:none}
+  @media(max-width:900px){.nav__links{display:none}}
+  .nav__link{font-size:.8125rem;font-weight:500;color:rgba(255,255,255,.6);transition:color .25s}
+  .nav__link:hover,.nav__link.active{color:var(--white)}
+  .nav__right{display:flex;align-items:center;gap:.75rem;margin-left:1.5rem}
+  .nav__icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);background:none;border:none;cursor:pointer;transition:color .25s}
+  .nav__icon-btn:hover{color:var(--white)}
+  .nav__cta{display:none;padding:.5rem 1.25rem;background:var(--gold);color:var(--white);border-radius:100px;font-size:.8125rem;font-weight:600;transition:opacity .2s}
+  .nav__cta:hover{opacity:.85}
+  @media(min-width:900px){.nav__cta{display:block}}
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:100px;font-family:var(--f-sans);font-size:.875rem;font-weight:600;cursor:pointer;border:none;transition:all .3s var(--ease-out-expo);text-decoration:none;padding:.75rem 1.75rem;white-space:nowrap}
+  .btn-dark{background:var(--green-900);color:var(--white)}
+  .btn-dark:hover{background:var(--green-700)}
+  .btn-gold{background:var(--gold);color:var(--white)}
+  .btn-outline{background:transparent;color:var(--dark);border:1.5px solid rgba(0,0,0,.15)}
+  .btn-outline:hover{border-color:var(--dark)}
+  .btn-lg{padding:1rem 2.25rem;font-size:.9375rem}
+  .btn-sm{padding:.5rem 1.1rem;font-size:.75rem}
+  /* PCARD */
+  .pcard{border-radius:20px;overflow:hidden;background:var(--white);border:1px solid rgba(0,0,0,.05);transition:transform .4s var(--ease-out-expo),box-shadow .4s}
+  .pcard:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
+  .pcard__media{aspect-ratio:1;background:var(--green-50);display:flex;align-items:center;justify-content:center;font-size:4.5rem;position:relative;overflow:hidden}
+  .pcard__media-inner{transition:transform .5s var(--ease-out-expo)}
+  .pcard:hover .pcard__media-inner{transform:scale(1.1)}
+  .pcard__badges{position:absolute;top:.75rem;left:.75rem;display:flex;flex-direction:column;gap:.375rem}
+  .pcard__badge{padding:.25rem .6rem;border-radius:100px;font-size:.65rem;font-weight:700}
+  .pcard__badge--top{background:var(--green-900);color:var(--white)}
+  .pcard__badge--new{background:var(--gold);color:var(--white)}
+  .pcard__badge--sale{background:#E53E3E;color:var(--white)}
+  .pcard__wish{position:absolute;top:.75rem;right:.75rem;width:36px;height:36px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;color:var(--gray-600);opacity:0;transition:all .25s}
+  .pcard:hover .pcard__wish{opacity:1}
+  .pcard__cta{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;transition:all .3s;white-space:nowrap}
+  .pcard:hover .pcard__cta{opacity:1;transform:translateX(-50%) translateY(0)}
+  .pcard__info{padding:1.25rem}
+  .pcard__brand{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-600);margin-bottom:.375rem}
+  .pcard__name{font-family:var(--f-display);font-size:1.0625rem;line-height:1.4;margin-bottom:.625rem}
+  .pcard__stars{display:flex;align-items:center;gap:.2rem;margin-bottom:.625rem}
+  .pcard__star{color:var(--gold);font-size:.8rem}
+  .pcard__star--empty{opacity:.3}
+  .pcard__reviews{font-size:.75rem;color:var(--gray-600);margin-left:.25rem}
+  .pcard__price{display:flex;align-items:center;gap:.625rem}
+  .pcard__price-now{font-family:var(--f-display);font-size:1.25rem;font-weight:500}
+  .pcard__price-was{font-size:.875rem;color:var(--gray-600);text-decoration:line-through}
+  /* FOOTER mini */
+  .footer-mini{background:var(--green-900);padding:2rem var(--gutter);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:rgba(255,255,255,.4)}
+  .footer-mini a{color:rgba(255,255,255,.4);transition:color .2s}
+  .footer-mini a:hover{color:var(--white)}
+  /* ANIM */
+  .anim-up{opacity:0;transform:translateY(40px)}
+  /* WA */
+  .wa-fab{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;box-shadow:0 4px 24px rgba(37,211,102,.4);transition:transform .3s}
+  .wa-fab:hover{transform:scale(1.1)}
+  /* TOASTS */
+  .toasts{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:9000;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+  .toast{background:var(--green-900);color:var(--white);padding:.75rem 1.5rem;border-radius:100px;font-size:.875rem;display:flex;align-items:center;gap:.5rem;box-shadow:0 4px 24px rgba(0,0,0,.2);animation:toastIn .3s}
+  @keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* CART/SEARCH overlays */
+  .search-overlay{position:fixed;inset:0;background:rgba(7,28,17,.97);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;pointer-events:none;transition:opacity .4s}
+  .search-overlay.open{opacity:1;pointer-events:all}
+  .search-form{display:flex;gap:1rem;width:100%;max-width:640px;padding-inline:var(--gutter)}
+  .search-input{flex:1;background:none;border:none;border-bottom:1.5px solid rgba(255,255,255,.3);padding:.75rem 0;font-family:var(--f-display);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--white);outline:none}
+  .search-input::placeholder{color:rgba(255,255,255,.25)}
+  .search-close-btn{position:absolute;top:2rem;right:var(--gutter);width:44px;height:44px;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.25rem;cursor:pointer}
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+  .cart-overlay.open{opacity:1;pointer-events:all}
+  .cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:201;transform:translateX(100%);transition:transform .45s var(--ease-out-expo);display:flex;flex-direction:column}
+  .cart-drawer.open{transform:none}
+  .cart-head{display:flex;justify-content:space-between;align-items:center;padding:1.5rem;border-bottom:1px solid var(--gray-200)}
+  .cart-body{flex:1;overflow-y:auto;padding:1.5rem}
+  .cart-empty{text-align:center;padding:3rem 1rem;color:var(--gray-600)}
+  .cart-empty-icon{font-size:3rem;margin-bottom:1rem}
+  .cart-foot{padding:1.5rem;border-top:1px solid var(--gray-200)}
+  .cart-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-weight:600}
+  .btn-icon{width:44px;height:44px;padding:0;border-radius:100px;background:transparent;color:var(--dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+
+  body{padding-top:var(--nav-h)}
+  .cat-hero{padding:clamp(3rem,6vw,5rem) var(--gutter) clamp(2rem,4vw,4rem);background:var(--green-900);position:relative;overflow:hidden}
+  .cat-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 70% 50%,rgba(44,110,73,.4),transparent)}
+  .cat-hero__inner{position:relative;z-index:1;max-width:var(--max-w);margin-inline:auto}
+  .breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:1.5rem}
+  .breadcrumb a{color:rgba(255,255,255,.4);transition:color .2s}
+  .breadcrumb a:hover{color:var(--white)}
+  .breadcrumb span{color:rgba(255,255,255,.2)}
+  .cat-hero h1{font-family:var(--f-display);font-size:clamp(2.5rem,7vw,5.5rem);font-weight:300;color:var(--white);line-height:1}
+  .cat-hero h1 em{font-style:italic;color:var(--gold)}
+  .cat-hero p{font-size:.9375rem;color:rgba(255,255,255,.45);margin-top:.875rem;max-width:480px}
+  /* Subcats */
+  .subcats-section{padding:clamp(4rem,8vw,8rem) var(--gutter);max-width:var(--max-w);margin-inline:auto}
+  .subcats-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;gap:2rem;flex-wrap:wrap}
+  .subcats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+  .subcat-card{border-radius:20px;background:var(--white);border:1px solid rgba(0,0,0,.05);padding:2rem 1.75rem;transition:all .4s var(--ease-out-expo);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:1.25rem;position:relative;overflow:hidden}
+  .subcat-card::before{content:'';position:absolute;inset:0;background:var(--green-900);transform:translateY(100%);transition:transform .5s var(--ease-out-expo);z-index:0}
+  .subcat-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(0,0,0,.12)}
+  .subcat-card:hover::before{transform:translateY(0)}
+  .subcat-card:hover .subcat-card__icon{background:rgba(255,255,255,.1);color:var(--gold)}
+  .subcat-card:hover .subcat-card__name,.subcat-card:hover .subcat-card__count{color:var(--white)}
+  .subcat-card:hover .subcat-card__arrow{color:var(--gold)}
+  .subcat-card__icon{width:52px;height:52px;border-radius:14px;background:var(--green-50);display:flex;align-items:center;justify-content:center;font-size:1.5rem;position:relative;z-index:1;transition:all .4s}
+  .subcat-card__name{font-family:var(--f-display);font-size:1.3125rem;font-weight:500;position:relative;z-index:1;transition:color .4s}
+  .subcat-card__count{font-size:.8rem;color:var(--gray-600);position:relative;z-index:1;transition:color .4s}
+  .subcat-card__arrow{font-size:1.25rem;color:var(--gray-600);position:absolute;bottom:1.75rem;right:1.75rem;z-index:1;transition:all .4s;transform:rotate(-45deg)}
+  .subcat-card:hover .subcat-card__arrow{transform:rotate(0deg)}
+
+  body{padding-top:var(--nav-h)}
+  .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+  @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:400px){.products-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="toasts"></div>
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close-btn">&#x2715;</button>
+  <form class="search-form" onsubmit="return false">
+    <input class="search-input" type="search" placeholder="Buscar productos, marcas&#x2026;" autocomplete="off" />
+  </form>
+</div>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3 style="font-family:var(--f-display);font-size:1.375rem">Mi carrito</h3><button data-cart-close class="btn-icon">&#x2715;</button></div>
+  <div class="cart-body"><div class="cart-empty"><div class="cart-empty-icon">&#x1F6D2;</div><p style="font-weight:600;margin-bottom:.25rem">Tu carrito está vacío</p></div></div>
+  <div class="cart-foot"><div class="cart-total"><span>Total</span><span>0,00 &#x20AC;</span></div><a href="checkout.html" class="btn btn-dark btn-lg" style="width:100%;justify-content:center">Tramitar pedido &#x2192;</a></div>
+</aside>
+<a href="https://wa.me/34928597161" class="wa-fab" target="_blank"><svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<nav class="nav" id="mainNav">
+  <div class="nav__inner wrap">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-badge">FR</div><span>Los Robles</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="nav__link">Inicio</a></li>
+      <li><a href="tienda.html" class="nav__link active">Tienda</a></li>
+      <li><a href="nosotros.html" class="nav__link">Nosotros</a></li>
+      <li><a href="contacto.html" class="nav__link">Contacto</a></li>
+    </ul>
+    <div class="nav__right">
+      <button class="nav__icon-btn" data-search><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <a href="cuenta.html" class="nav__icon-btn"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="nav__icon-btn" data-cart><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+      <a href="tienda.html" class="nav__cta">Ver tienda</a>
+    </div>
+  </div>
+</nav>
+<div class="cat-hero">
+  <div class="cat-hero__inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>/</span>
+      <a href="tienda.html">Tienda</a>
+      <span>/</span>
+      <a href="cat-higiene.html">Higiene y Salud</a>
+      <span>/</span>
+      <span style="color:rgba(255,255,255,.7)">Antimosquitos</span>
+    </div>
+    <h1>🦟 <em style="font-style:italic;color:var(--gold)">Antimosquitos</em></h1>
+    <p>Repelentes, pulseras, velas y tratamientos antimosquitos</p>
+  </div>
+</div>
+
+<div style="padding:clamp(4rem,8vw,8rem) var(--gutter);max-width:var(--max-w);margin-inline:auto">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem">
+    <div>
+      <div style="font-size:.675rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-600);display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="width:20px;height:1.5px;background:currentColor;display:block"></span>Higiene y Salud</div>
+      <h2 style="font-family:var(--f-display);font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1">Antimosquitos</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <select style="padding:.6rem 1rem;border:1.5px solid var(--gray-200);border-radius:100px;font-family:var(--f-sans);font-size:.8125rem;background:var(--white);cursor:pointer">
+        <option>Ordenar por: Relevancia</option>
+        <option>Precio: menor a mayor</option>
+        <option>Precio: mayor a menor</option>
+        <option>Mejor valorados</option>
+        <option>Novedades</option>
+      </select>
+      <a href="cat-higiene.html" class="btn btn-outline btn-sm">← Higiene y Salud</a>
+    </div>
+  </div>
+  <div class="products-grid">
+        <div class="pcard anim-up" data-delay="0.00" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">💊</div>
+            <div class="pcard__badges"><span class="pcard__badge pcard__badge--top">Más vendido</span></div>
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Isdin</div>
+            <div class="pcard__name">Producto Antimosquitos 1</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(297)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">20.92&thinsp;€</span><span class="pcard__price-was">25.10&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.06" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">🌿</div>
+            <div class="pcard__badges"><span class="pcard__badge pcard__badge--new">Nuevo</span></div>
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">La Roche-Posay</div>
+            <div class="pcard__name">Producto Antimosquitos 2</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(35)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">34.70&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.12" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">✨</div>
+            <div class="pcard__badges"><span class="pcard__badge pcard__badge--sale">-25%</span></div>
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Vichy</div>
+            <div class="pcard__name">Producto Antimosquitos 3</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(161)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">30.14&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.18" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">💧</div>
+            
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Bioderma</div>
+            <div class="pcard__name">Producto Antimosquitos 4</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(109)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">22.77&thinsp;€</span><span class="pcard__price-was">29.60&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.24" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">🌸</div>
+            
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Avène</div>
+            <div class="pcard__name">Producto Antimosquitos 5</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(198)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">43.43&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.30" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">⚡</div>
+            <div class="pcard__badges"><span class="pcard__badge pcard__badge--new">Nuevo</span></div>
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Eucerin</div>
+            <div class="pcard__name">Producto Antimosquitos 6</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(29)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">37.97&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.36" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">🎯</div>
+            
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">Klorane</div>
+            <div class="pcard__name">Producto Antimosquitos 7</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(293)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">26.41&thinsp;€</span></div>
+          </div>
+        </div>
+        <div class="pcard anim-up" data-delay="0.42" data-cat="antimosquitos">
+          <div class="pcard__media">
+            <div class="pcard__media-inner">🌟</div>
+            <div class="pcard__badges"><span class="pcard__badge pcard__badge--sale">-15%</span></div>
+            <button class="pcard__wish">♥</button>
+            <button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+ Añadir</button>
+          </div>
+          <div class="pcard__info">
+            <div class="pcard__brand">SVR</div>
+            <div class="pcard__name">Producto Antimosquitos 8</div>
+            <div class="pcard__stars"><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__star">★</span><span class="pcard__reviews">(271)</span></div>
+            <div class="pcard__price"><span class="pcard__price-now">25.83&thinsp;€</span><span class="pcard__price-was">33.58&thinsp;€</span></div>
+          </div>
+        </div>
+  </div>
+  <!-- Pagination -->
+  <div style="display:flex;justify-content:center;gap:.5rem;margin-top:4rem">
+    <button class="btn btn-dark btn-sm" style="border-radius:12px">1</button>
+    <button class="btn btn-outline btn-sm" style="border-radius:12px">2</button>
+    <button class="btn btn-outline btn-sm" style="border-radius:12px">3</button>
+    <span style="padding:.5rem .75rem;color:var(--gray-600)">…</span>
+    <button class="btn btn-outline btn-sm" style="border-radius:12px">8</button>
+  </div>
+</div>
+<footer class="footer-mini">
+  <span>© 2025 Farmacia Los Robles Lanzarote</span>
+  <div style="display:flex;gap:2rem">
+    <a href="index.html">Inicio</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="contacto.html">Contacto</a>
+    <a href="nosotros.html">Nosotros</a>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+// Lenis
+const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+lenis.on('scroll',ScrollTrigger.update);
+gsap.ticker.add(t=>lenis.raf(t*1000));
+gsap.ticker.lagSmoothing(0);
+// Header
+window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('solid',window.scrollY>60)},{passive:true});
+// Scroll reveals
+window.addEventListener('load',()=>{
+  gsap.utils.toArray('.anim-up').forEach(el=>{
+    gsap.to(el,{y:0,opacity:1,duration:1,ease:'power3.out',delay:parseFloat(el.dataset.delay||0),scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+  });
+  ScrollTrigger.refresh();
+});
+// Search
+const so=document.getElementById('searchOverlay');
+document.querySelectorAll('[data-search]').forEach(b=>b.addEventListener('click',()=>{so.classList.add('open');setTimeout(()=>so.querySelector('.search-input')?.focus(),300)}));
+so.querySelector('.search-close-btn')?.addEventListener('click',()=>so.classList.remove('open'));
+so.addEventListener('click',e=>{if(e.target===so)so.classList.remove('open')});
+window.addEventListener('keydown',e=>{if(e.key==='Escape')so.classList.remove('open')});
+// Cart
+const co=document.getElementById('cartOverlay'),cd=document.getElementById('cartDrawer');
+const openCart=()=>{co.classList.add('open');cd.classList.add('open');document.body.style.overflow='hidden'};
+const closeCart=()=>{co.classList.remove('open');cd.classList.remove('open');document.body.style.overflow=''};
+document.querySelectorAll('[data-cart]').forEach(b=>b.addEventListener('click',openCart));
+co.addEventListener('click',closeCart);
+document.querySelectorAll('[data-cart-close]').forEach(b=>b.addEventListener('click',closeCart));
+document.querySelectorAll('[data-add-cart]').forEach(b=>b.addEventListener('click',()=>{showToast('¡Añadido al carrito! 🛒');openCart()}));
+// Toast
+window.showToast=msg=>{const c=document.querySelector('.toasts');const t=document.createElement('div');t.className='toast';t.innerHTML='<span>✓</span><span>'+msg+'</span>';c.appendChild(t);setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),350)},3200)};
+</script>
+</body>
+</html>

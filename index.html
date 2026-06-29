@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmacia Los Robles Lanzarote — Salud, Cosmética y Bienestar</title>
+  <meta name="description" content="Tu farmacia de confianza en Lanzarote. Cosmética, dermocosmética, nutrición, bebés y más. Envío 24h a toda España." />
+  <link rel="icon" type="image/png" href="Favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/design.css" />
+  <style>
+    :root {
+      --green-900:#071C11;--green-800:#0F2E1E;--green-700:#174A2E;
+      --green-600:#2C6E49;--green-100:#D4EDE1;--green-50:#EDF7F2;
+      --gold:#C8A96E;--gold-light:#E8D5A3;
+      --cream-50:#FDFCF9;--white:#FFFFFF;--dark:#0A0A0A;
+      --gray-600:#6B7280;--gray-200:#E5E7EB;
+      --f-display:'Playfair Display',Georgia,serif;
+      --f-sans:'Inter',system-ui,sans-serif;
+      --max-w:1400px;--gutter:clamp(1.25rem,4vw,3rem);--nav-h:72px;
+      --ease-out-expo:cubic-bezier(.16,1,.3,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-family:var(--f-sans);color:var(--dark);background:var(--cream-50)}
+    html,body{overflow-x:clip}
+    html{scroll-behavior:auto}
+    .wrap{max-width:var(--max-w);margin-inline:auto;padding-inline:var(--gutter)}
+    img{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+
+    /* CURSOR */
+
+    /* LOADER */
+    .loader{position:fixed;inset:0;background:var(--green-900);z-index:9990;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
+    .loader__word{font-family:var(--f-display);font-size:clamp(2rem,5vw,3.5rem);color:var(--white);font-weight:300;letter-spacing:-.02em;overflow:hidden}
+    .loader__word-inner{display:block;transform:translateY(110%)}
+    .loader__bar{width:180px;height:1px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:.5rem}
+    .loader__fill{height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;transition:background .4s,backdrop-filter .4s}
+    .nav.solid{background:rgba(7,28,17,.92);backdrop-filter:blur(20px)}
+    .nav__inner{display:flex;align-items:center;width:100%;max-width:var(--max-w);margin-inline:auto;padding-inline:var(--gutter)}
+    .nav__logo{display:flex;align-items:center;gap:.75rem;font-family:var(--f-display);font-size:1.25rem;font-weight:500;color:var(--white)}
+    .nav__logo-badge{width:36px;height:36px;background:var(--green-700);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--f-sans);font-size:.8rem;font-weight:700;color:var(--white)}
+    .nav__links{display:flex;gap:2.5rem;margin-left:auto;list-style:none}
+    @media(max-width:900px){.nav__links{display:none}}
+    .nav__link{font-size:.8125rem;font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.03em;transition:color .25s}
+    .nav__link:hover,.nav__link.active{color:var(--white)}
+    .nav__right{display:flex;align-items:center;gap:.75rem;margin-left:2rem}
+    .nav__icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:color .25s;background:none;border:none;cursor:pointer}
+    .nav__icon-btn:hover{color:var(--white)}
+    .nav__cta{display:none;padding:.5rem 1.25rem;background:var(--gold);color:var(--white);border-radius:100px;font-size:.8125rem;font-weight:600;transition:opacity .2s}
+    .nav__cta:hover{opacity:.85}
+    @media(min-width:900px){.nav__cta{display:block}}
+    .nav__hamburger{width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem}
+    .nav__hamburger span{display:block;height:1.5px;width:100%;background:rgba(255,255,255,.7);transition:all .3s}
+    @media(min-width:900px){.nav__hamburger{display:none}}
+
+    /* MOBILE MENU */
+    .mob-menu{position:fixed;inset:0;background:var(--green-900);z-index:200;display:flex;flex-direction:column;padding:2rem var(--gutter);transform:translateX(100%);transition:transform .5s var(--ease-out-expo)}
+    .mob-menu.open{transform:none}
+    .mob-menu__link{font-family:var(--f-display);font-size:clamp(2rem,8vw,3.5rem);font-weight:300;color:rgba(255,255,255,.8);padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .mob-menu__link:hover{color:var(--white)}
+
+    /* SEARCH */
+    .search-overlay{position:fixed;inset:0;background:rgba(7,28,17,.97);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;pointer-events:none;transition:opacity .4s}
+    .search-overlay.open{opacity:1;pointer-events:all}
+    .search-form{display:flex;gap:1rem;width:100%;max-width:640px;padding-inline:var(--gutter)}
+    .search-input{flex:1;background:none;border:none;border-bottom:1.5px solid rgba(255,255,255,.3);padding:.75rem 0;font-family:var(--f-display);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--white);outline:none}
+    .search-input::placeholder{color:rgba(255,255,255,.25)}
+    .search-close-btn{position:absolute;top:2rem;right:var(--gutter);width:44px;height:44px;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.25rem;cursor:pointer}
+    .search-tags{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding-inline:var(--gutter)}
+    .search-tag{padding:.375rem .875rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:100px;font-size:.75rem;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s}
+    .search-tag:hover{background:rgba(255,255,255,.14);color:var(--white)}
+
+    /* CART */
+    .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+    .cart-overlay.open{opacity:1;pointer-events:all}
+    .cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--white);z-index:201;transform:translateX(100%);transition:transform .45s var(--ease-out-expo);display:flex;flex-direction:column}
+    .cart-drawer.open{transform:none}
+    .cart-head{display:flex;justify-content:space-between;align-items:center;padding:1.5rem;border-bottom:1px solid var(--gray-200)}
+    .cart-body{flex:1;overflow-y:auto;padding:1.5rem}
+    .cart-empty{text-align:center;padding:3rem 1rem;color:var(--gray-600)}
+    .cart-empty-icon{font-size:3rem;margin-bottom:1rem}
+    .cart-foot{padding:1.5rem;border-top:1px solid var(--gray-200)}
+    .cart-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-weight:600}
+
+    /* BUTTONS */
+    /* ── BOTONES — estilo premium rediseñado ── */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+      border-radius:10px;
+      font-family:var(--f-sans);font-size:.875rem;font-weight:600;letter-spacing:.025em;
+      cursor:pointer;border:1.5px solid transparent;
+      transition:transform .22s,box-shadow .22s,background .22s,border-color .22s,color .22s;
+      text-decoration:none;padding:.75rem 1.75rem;white-space:nowrap;
+      position:relative;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn:active{transform:translateY(0)}
+    /* Dark / primary */
+    .btn-dark{
+      background:var(--green-900);color:var(--white);
+      box-shadow:0 1px 3px rgba(7,28,17,.18),inset 0 1px 0 rgba(255,255,255,.07);
+    }
+    .btn-dark:hover{
+      background:#0f2a1c;
+      box-shadow:0 8px 28px rgba(7,28,17,.32),inset 0 1px 0 rgba(255,255,255,.09);
+    }
+    /* Gold / acento */
+    .btn-gold{
+      background:var(--gold);color:var(--green-900);
+      box-shadow:0 1px 3px rgba(200,169,110,.28);
+    }
+    .btn-gold:hover{
+      background:#d4b97c;
+      box-shadow:0 8px 28px rgba(200,169,110,.38);
+    }
+    /* Outline oscuro */
+    .btn-outline{
+      background:transparent;color:var(--green-900);
+      border-color:rgba(7,28,17,.22);
+    }
+    .btn-outline:hover{
+      background:var(--green-900);color:var(--white);
+      border-color:var(--green-900);
+      box-shadow:0 8px 24px rgba(7,28,17,.22);
+    }
+    /* Outline blanco (sobre fondos oscuros) */
+    .btn-outline-white{
+      background:rgba(255,255,255,.07);color:var(--white);
+      border-color:rgba(255,255,255,.28);
+      backdrop-filter:blur(10px);
+    }
+    .btn-outline-white:hover{
+      background:rgba(255,255,255,.18);
+      border-color:rgba(255,255,255,.55);
+    }
+    .btn-outline-dark{
+      background:transparent;color:var(--green-900);
+      border-color:rgba(7,28,17,.28);
+    }
+    .btn-outline-dark:hover{
+      background:rgba(7,28,17,.06);
+      border-color:rgba(7,28,17,.5);
+    }
+    /* Ghost */
+    .btn-ghost{
+      background:transparent;color:var(--dark);border-color:transparent;
+      box-shadow:none;
+    }
+    .btn-ghost:hover{background:rgba(7,28,17,.06)}
+    /* Tamaños */
+    .btn-lg{padding:1rem 2.5rem;font-size:.9375rem;border-radius:12px}
+    .btn-sm{padding:.45rem 1rem;font-size:.75rem;border-radius:8px}
+    .btn-icon{width:44px;height:44px;padding:0;border-radius:10px}
+
+    /* SECTION LABEL */
+    .section-label{font-size:.675rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green-600);display:inline-flex;align-items:center;gap:.5rem}
+    .section-label::before{content:'';width:20px;height:1.5px;background:currentColor;flex-shrink:0}
+    .section-label--gold{color:var(--gold)}
+    .section-label--gold::before{background:var(--gold)}
+    .section-label--white{color:rgba(255,255,255,.45)}
+    .section-label--white::before{background:rgba(255,255,255,.45)}
+
+    /* PRODUCT CARD */
+    .pcard{border-radius:20px;overflow:hidden;background:var(--white);border:1px solid rgba(0,0,0,.05);transition:transform .4s var(--ease-out-expo),box-shadow .4s}
+    .pcard:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
+    .pcard__media{aspect-ratio:1;background:var(--green-50);display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden}
+    .pcard__media-inner{transition:transform .5s var(--ease-out-expo)}
+    .pcard:hover .pcard__media-inner{transform:scale(1.1)}
+    .pcard__badges{position:absolute;top:.75rem;left:.75rem;display:flex;flex-direction:column;gap:.375rem}
+    .pcard__badge{padding:.25rem .6rem;border-radius:100px;font-size:.65rem;font-weight:700;letter-spacing:.05em}
+    .pcard__badge--top{background:var(--green-900);color:var(--white)}
+    .pcard__badge--new{background:var(--gold);color:var(--white)}
+    .pcard__badge--sale{background:#E53E3E;color:var(--white)}
+    .pcard__wish{position:absolute;top:.75rem;right:.75rem;width:36px;height:36px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;color:var(--gray-600);transition:all .25s;opacity:0}
+    .pcard:hover .pcard__wish{opacity:1}
+    .pcard__cta{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;transition:all .3s;white-space:nowrap}
+    .pcard:hover .pcard__cta{opacity:1;transform:translateX(-50%) translateY(0)}
+    .pcard__info{padding:1.25rem}
+    .pcard__brand{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-600);margin-bottom:.375rem}
+    .pcard__name{font-family:var(--f-display);font-size:1.0625rem;font-weight:400;line-height:1.4;margin-bottom:.625rem}
+    .pcard__stars{display:flex;align-items:center;gap:.2rem;margin-bottom:.625rem}
+    .pcard__star{color:var(--gold);font-size:.8rem}
+    .pcard__star--empty{opacity:.3}
+    .pcard__reviews{font-size:.75rem;color:var(--gray-600);margin-left:.25rem}
+    .pcard__price{display:flex;align-items:center;gap:.625rem}
+    .pcard__price-now{font-family:var(--f-display);font-size:1.25rem;font-weight:500}
+    .pcard__price-was{font-size:.875rem;color:var(--gray-600);text-decoration:line-through}
+
+    /* FOOTER */
+    .footer{background:var(--green-900);color:rgba(255,255,255,.55)}
+    .footer__main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:4rem;padding-block:5rem 3.5rem}
+    @media(max-width:1024px){.footer__main{grid-template-columns:1fr 1fr 1fr;gap:2.5rem}}
+    @media(max-width:640px){.footer__main{grid-template-columns:1fr 1fr;gap:2rem}}
+    .footer__brand p{font-size:.875rem;line-height:1.75;margin-top:.75rem;max-width:260px}
+    .footer__social{display:flex;gap:.625rem;margin-top:1.5rem}
+    .footer__soc-link{width:38px;height:38px;background:rgba(255,255,255,.07);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
+    .footer__soc-link:hover{background:rgba(255,255,255,.15)}
+    .footer__col-title{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.25rem}
+    .footer__links{list-style:none;display:flex;flex-direction:column;gap:.625rem}
+    .footer__flink{font-size:.875rem;color:rgba(255,255,255,.5);transition:color .2s}
+    .footer__flink:hover{color:var(--white)}
+    .footer__contact-item{display:flex;gap:.75rem;font-size:.875rem;margin-bottom:.75rem;line-height:1.5}
+    .footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-block:1.5rem;border-top:1px solid rgba(255,255,255,.07);font-size:.8rem;gap:1.5rem;flex-wrap:wrap}
+    .footer__payments{display:flex;gap:.5rem}
+    .footer__pay{padding:.3rem .6rem;background:rgba(255,255,255,.08);border-radius:6px;font-size:.7rem;font-weight:600}
+    .footer__legal{display:flex;gap:1.5rem}
+    .footer-logo{display:flex;align-items:center;gap:.75rem;font-family:var(--f-display);font-size:1.5rem;font-weight:500;color:var(--white)}
+    .footer-logo-badge{width:40px;height:40px;background:var(--green-700);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--f-sans);font-size:.875rem;font-weight:700;color:var(--white)}
+
+    /* MARQUEE BAR */
+    .marquee-bar{background:var(--gold);overflow:hidden;padding:.6875rem 0}
+    .marquee-bar__track{display:flex;gap:0;white-space:nowrap;animation:marqueeScroll 24s linear infinite}
+    @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .marquee-bar__item{padding:0 2rem;font-size:.6875rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);display:inline-flex;align-items:center;gap:.625rem}
+    .marquee-bar__dot{width:3px;height:3px;background:rgba(255,255,255,.6);border-radius:50%;flex-shrink:0}
+
+    /* WA FAB */
+    .wa-fab{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;box-shadow:0 4px 24px rgba(37,211,102,.4);transition:transform .3s}
+    .wa-fab:hover{transform:scale(1.1)}
+
+    /* TOASTS */
+    .toasts{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:9000;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+    .toast{background:var(--green-900);color:var(--white);padding:.75rem 1.5rem;border-radius:100px;font-size:.875rem;display:flex;align-items:center;gap:.5rem;box-shadow:0 4px 24px rgba(0,0,0,.2);animation:toastIn .3s var(--ease-out-expo)}
+    @keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .toast.out{animation:toastIn .3s reverse forwards}
+
+    /* ANIMATIONS initial states */
+    .anim-up{opacity:0;transform:translateY(50px)}
+    .anim-left{opacity:0;transform:translateX(-40px)}
+    .anim-right{opacity:0;transform:translateX(40px)}
+    .anim-scale{opacity:0;transform:scale(.93)}
+    .anim-fade{opacity:0}
+
+    /* ══════════════════════════════════════
+       HERO — Cinematic full-screen scroll
+    ══════════════════════════════════════ */
+    #hero-scene {
+      position: relative;
+      background: #071C11;
+    }
+    #heroSpacer {
+      height: 320vh;
+      pointer-events: none;
+    }
+    #hero {
+      position: sticky; top: 0;
+      height: 100dvh;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* ── Imagen de fondo ── */
+    .hero-bg { position:absolute;inset:0;z-index:0;overflow:hidden; }
+    .hero-bg img {
+      width:100%;height:112%;object-fit:cover;object-position:center 30%;
+      will-change:transform;
+      animation:heroBreath 14s ease-in-out infinite alternate;
+    }
+    @keyframes heroBreath { 0%{transform:scale(1.02) translateY(0)} 100%{transform:scale(1.07) translateY(-2%)} }
+    /* Overlay en capas: oscuro intenso abajo, sutil arriba */
+    .hero-overlay {
+      position:absolute;inset:0;z-index:1;
+      background:
+        linear-gradient(to top,
+          rgba(4,12,8,.92) 0%,
+          rgba(4,12,8,.62) 35%,
+          rgba(4,12,8,.38) 65%,
+          rgba(4,12,8,.18) 100%),
+        linear-gradient(110deg,
+          rgba(4,12,8,.5) 0%,
+          transparent 60%);
+    }
+    /* Grano cinematográfico */
+    .hero-grain {
+      position:absolute;inset:0;z-index:2;opacity:.032;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:200px;
+    }
+
+    /* ── Fases de contenido (apiladas, GSAP controla) ── */
+    /* ── FASE contenedor base ── */
+    .hero-phase {
+      position:absolute;inset:0;z-index:3;
+      display:flex;flex-direction:column;
+      justify-content:center;align-items:center;
+      text-align:center;
+      padding-inline:var(--gutter);
+      padding-top:var(--nav-h);
+      pointer-events:none;
+    }
+    .hero-phase.is-active { pointer-events:all; }
+    #heroP2 { opacity:0; }
+
+    /* Eyebrow badge */
+    .hero-eyebrow {
+      display:inline-flex;align-items:center;gap:.6rem;
+      padding:.35rem .9rem .35rem .5rem;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+      border-radius:100px;
+      font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:rgba(255,255,255,.75);width:fit-content;margin-bottom:2.5rem;
+    }
+    .hero-eyebrow__dot {
+      width:16px;height:16px;background:var(--gold);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:7px;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+    /* Título principal centrado — grande y rotundo */
+    .hero-h1 {
+      font-family:var(--f-display);
+      font-size:clamp(4.2rem,11vw,12rem);
+      font-weight:900;line-height:.9;letter-spacing:-.02em;
+      color:var(--white);margin:0;
+      text-shadow:0 8px 60px rgba(0,0,0,.5);
+      will-change:transform;
+    }
+    .hero-h1 em { font-style:italic;color:var(--gold);font-weight:800; }
+    .hero-clip-line { display:block; }
+    .hero-clip-inner { display:block;will-change:transform; }
+
+    /* Subtítulo bajo el título */
+    .hero-subtitle {
+      font-family:var(--f-sans);font-size:clamp(.75rem,1.2vw,.9rem);
+      font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+      color:rgba(255,255,255,.45);margin-top:2rem;
+    }
+    /* CTA centrado */
+    .hero-cta-center { margin-top:2.5rem; }
+
+    /* ── FASE 2: fotos en las 4 esquinas ── */
+    .hero-corner {
+      position:absolute;z-index:4;
+      overflow:hidden;border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.55);
+    }
+    .hero-corner img { width:100%;height:100%;object-fit:cover; }
+
+    .hero-corner--tl {
+      top:clamp(5rem,10vh,8rem); left:clamp(1rem,2.5vw,2.5rem);
+      width:clamp(160px,30vw,400px); height:clamp(110px,23vh,280px);
+    }
+    .hero-corner--tr {
+      top:clamp(5rem,10vh,8rem); right:clamp(1rem,2.5vw,2.5rem);
+      width:clamp(140px,26vw,340px); height:clamp(110px,23vh,280px);
+    }
+    .hero-corner--bl {
+      bottom:clamp(3rem,7vh,5.5rem); left:clamp(1rem,2.5vw,2.5rem);
+      width:clamp(140px,26vw,340px); height:clamp(100px,20vh,250px);
+    }
+    .hero-corner--br {
+      bottom:clamp(3rem,7vh,5.5rem); right:clamp(1rem,2.5vw,2.5rem);
+      width:clamp(160px,30vw,400px); height:clamp(100px,20vh,250px);
+    }
+    /* Overlay oscuro de fase 2 */
+    .hero-p2-overlay {
+      position:absolute;inset:0;z-index:5;
+      background:rgba(4,10,6,.82);
+      opacity:0;
+    }
+    /* Texto central de fase 2 */
+    .hero-p2-center {
+      position:absolute;inset:0;z-index:6;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;padding:2rem;
+      gap:2rem;
+    }
+    .hero-p2-quote {
+      font-family:var(--f-display);
+      font-size:clamp(3.2rem,9vw,11rem);
+      font-weight:300;line-height:.9;letter-spacing:-.04em;
+      color:var(--white);
+    }
+    .hero-p2-quote em { font-style:italic;color:var(--gold);display:block; }
+
+    /* Badge horario */
+    .hero-open-badge {
+      position:absolute;top:calc(var(--nav-h) + 1.25rem);right:var(--gutter);z-index:5;
+      display:flex;align-items:center;gap:.5rem;
+      padding:.45rem 1rem;
+      background:rgba(255,255,255,.1);backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.16);border-radius:10px;
+    }
+    .hero-open-dot {
+      width:7px;height:7px;border-radius:50%;background:#4ade80;
+      animation:blink 2s ease-in-out infinite;flex-shrink:0;
+    }
+    .hero-open-text { font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.8); }
+
+    /* Scroll hint */
+    .hero-scroll {
+      position:absolute;bottom:2rem;right:var(--gutter);z-index:5;
+      display:flex;flex-direction:column;align-items:center;gap:.4rem;
+    }
+    .hero-scroll__line {
+      width:1px;height:44px;
+      background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);
+      animation:linePulse 2.2s ease-in-out infinite;
+    }
+    @keyframes linePulse{0%,100%{opacity:.3;transform:scaleY(.65) translateY(-6px)}50%{opacity:.85;transform:scaleY(1) translateY(0)}}
+    .hero-scroll__label {
+      font-size:.58rem;font-weight:700;letter-spacing:.18em;
+      text-transform:uppercase;color:rgba(255,255,255,.28);writing-mode:vertical-rl;
+    }
+
+    /* Indicadores de fase (3 líneas laterales) */
+    .hero-steps {
+      position:absolute;bottom:2rem;left:var(--gutter);z-index:5;
+      display:flex;gap:.375rem;
+    }
+    .hero-step {
+      width:24px;height:2px;border-radius:2px;
+      background:rgba(255,255,255,.2);
+      transition:width .4s,background .4s;
+    }
+    .hero-step.is-active {
+      width:40px;background:var(--gold);
+    }
+
+    /* Main content slides over hero — esquinas redondeadas como tarjeta */
+    #main-content {
+      position: relative;
+      z-index: 10;
+      margin-top: -100vh;
+      border-radius: 40px 40px 0 0;
+      box-shadow: 0 -40px 80px rgba(0,0,0,.55), 0 -2px 0 rgba(200,169,110,.25);
+      overflow: hidden;
+      background: var(--cream-50);
+    }
+
+    /* ──────────────────────────────────────
+       SOBRE NOSOTROS — split screen
+    ────────────────────────────────────── */
+    .about-section {
+      background: var(--cream-50);
+      padding-block: 0;
+    }
+    .about-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 90vh;
+    }
+    /* Izquierda: foto */
+    .about-split__img {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-split__img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 30%;
+    }
+    .about-split__img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(7,28,17,.2) 0%, transparent 50%);
+    }
+    /* Badge sobre la foto */
+    .about-img-badge {
+      position: absolute; bottom: 2.5rem; left: 2.5rem; z-index: 2;
+      background: rgba(7,28,17,.82); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 16px;
+      padding: 1.25rem 1.75rem; text-align: center;
+    }
+    .about-img-badge__num {
+      font-family: var(--f-display);
+      font-size: 2.8rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+    }
+    .about-img-badge__txt {
+      font-size: .62rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: rgba(255,255,255,.5); margin-top: .35rem;
+    }
+    /* Derecha: contenido */
+    .about-split__content {
+      background: var(--cream-50);
+      padding: clamp(4rem,8vw,7rem) clamp(2.5rem,5vw,5rem);
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    /* Número fantasma de fondo */
+    .about-split__ghost {
+      position: absolute; top: -2rem; right: -1rem;
+      font-family: var(--f-display); font-size: clamp(14rem,28vw,26rem);
+      font-weight: 900; line-height: 1; letter-spacing: -.05em;
+      color: rgba(7,28,17,.04); pointer-events: none; user-select: none;
+    }
+    .about-split__eyebrow {
+      font-size: .62rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--green-600);
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 2rem;
+    }
+    .about-split__eyebrow::before {
+      content: ''; width: 28px; height: 1.5px; background: var(--green-600);
+    }
+    .about-split__title {
+      font-family: var(--f-display);
+      font-size: clamp(2.4rem,4.5vw,5.5rem);
+      font-weight: 800; line-height: 1.0; letter-spacing: -.02em;
+      color: var(--green-900); margin: 0 0 1.75rem;
+      position: relative; z-index: 1;
+    }
+    .about-split__title em { font-style: italic; color: var(--gold); }
+    .about-split__body {
+      font-size: clamp(.875rem,1.3vw,1rem);
+      line-height: 1.82; color: rgba(7,28,17,.6);
+      max-width: 420px; margin-bottom: 2.5rem;
+      position: relative; z-index: 1;
+    }
+    .about-split__ctas {
+      display: flex; gap: .875rem; flex-wrap: wrap; margin-bottom: 3rem;
+      position: relative; z-index: 1;
+    }
+    /* Stats row al pie */
+    .about-split__stats {
+      display: flex; gap: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(7,28,17,.1);
+      position: relative; z-index: 1;
+    }
+    .about-split__stat-val {
+      font-family: var(--f-display);
+      font-size: clamp(1.8rem,3vw,2.8rem);
+      font-weight: 900; color: var(--green-900); line-height: 1;
+    }
+    .about-split__stat-label {
+      font-size: .62rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(7,28,17,.4); margin-top: .35rem;
+    }
+    @media (max-width:768px) {
+      .about-split { grid-template-columns: 1fr; }
+      .about-split__img { min-height: 55vw; }
+      .about-split__content { padding: 3rem 1.5rem; }
+    }
+
+    /* 3 pillars strip */
+    .about-pillars {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border-top:1px solid var(--gray-200);
+      border-left:1px solid var(--gray-200);
+      margin-bottom: clamp(5rem,10vw,10rem);
+    }
+    .about-pillar {
+      padding:2.5rem 2rem;
+      border-right:1px solid var(--gray-200);
+      border-bottom:1px solid var(--gray-200);
+      position:relative;overflow:hidden;
+      transition:background .4s;
+    }
+    .about-pillar:hover{background:var(--green-900)}
+    .about-pillar:hover .about-pillar__num{color:rgba(255,255,255,.06)}
+    .about-pillar:hover .about-pillar__title{color:var(--white)}
+    .about-pillar:hover .about-pillar__body{color:rgba(255,255,255,.55)}
+    .about-pillar__num {
+      font-family:var(--f-display);
+      font-size:5rem;font-weight:300;
+      color:var(--green-100);
+      line-height:1;margin-bottom:1.5rem;
+      transition:color .4s;
+    }
+    .about-pillar__title {
+      font-family:var(--f-display);font-size:1.375rem;font-weight:500;
+      margin-bottom:.75rem;transition:color .4s;
+    }
+    .about-pillar__body {
+      font-size:.875rem;color:var(--gray-600);line-height:1.75;
+      transition:color .4s;
+    }
+
+    /* Benefits — full-width alternating */
+    .benefits-section {
+      background:var(--white);
+      padding-block:clamp(5rem,10vw,10rem);
+    }
+    .benefits-intro {
+      display:flex;justify-content:space-between;align-items:flex-end;
+      margin-bottom:4rem;flex-wrap:wrap;gap:2rem;
+    }
+    .benefits-heading {
+      font-family:var(--f-display);font-size:clamp(2.5rem,5vw,5rem);
+      font-weight:300;line-height:1;
+    }
+    .benefits-heading em{font-style:italic;color:var(--green-600)}
+    .benefits-grid {
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:1.5rem;
+    }
+    .bcard {
+      border-radius:24px;padding:2.5rem 2rem;
+      background:var(--cream-50);border:1px solid rgba(0,0,0,.04);
+      transition:all .5s var(--ease-out-expo);
+    }
+    .bcard:nth-child(even){background:var(--green-50)}
+    .bcard:nth-child(3n){background:var(--green-900);color:var(--white)}
+    .bcard:nth-child(3n) .bcard__body{color:rgba(255,255,255,.55)}
+    .bcard:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,.08)}
+    .bcard:nth-child(3n):hover{box-shadow:0 20px 60px rgba(7,28,17,.3)}
+    .bcard__icon{font-size:2rem;margin-bottom:1.75rem;display:block}
+    .bcard__title{font-family:var(--f-display);font-size:1.4375rem;font-weight:500;margin-bottom:.75rem}
+    .bcard__body{font-size:.875rem;color:var(--gray-600);line-height:1.8}
+
+    /* ──────────────────────────────────────
+       LO MÁS BUSCADO
+    ────────────────────────────────────── */
+    .popular-section{background:var(--cream-50);padding-block:clamp(5rem,10vw,10rem)}
+    .popular-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;gap:2rem;flex-wrap:wrap}
+    .prods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+    @media(max-width:1024px){.prods-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.prods-grid{grid-template-columns:1fr 1fr}}
+    .filter-bar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .filter-btn{padding:.5rem 1.1rem;border-radius:100px;font-size:.75rem;font-weight:600;background:var(--white);border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:all .25s;color:var(--dark)}
+    .filter-btn.active,.filter-btn:hover{background:var(--green-900);color:var(--white);border-color:var(--green-900)}
+
+    /* ──────────────────────────────────────
+       MARCAS
+    ────────────────────────────────────── */
+    .brands-section {
+      background:var(--cream-50);
+      padding-block:2rem 2.5rem;
+      overflow:hidden;
+      border-top:1px solid rgba(0,0,0,.06);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    /* Header de la sección */
+    .brands-header {
+      display:flex;align-items:flex-end;justify-content:space-between;
+      margin-bottom:3.5rem;gap:2rem;flex-wrap:wrap;
+    }
+
+    /* Marquee wrapper */
+    .brands-marquee-wrap {
+      overflow:hidden;
+      margin-top:1.25rem;
+      /* fade edges */
+      mask-image:linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+      -webkit-mask-image:linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+    .brands-row {
+      display:flex;gap:1.25rem;
+      width:max-content;
+      animation:brandR 40s linear infinite;
+    }
+    .brands-row--rev { animation:brandL 34s linear infinite; }
+    @keyframes brandR{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @keyframes brandL{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+    .brands-marquee-wrap:hover .brands-row,
+    .brands-marquee-wrap:hover .brands-row--rev { animation-play-state:paused }
+
+    /* Tarjeta de logo — blanco con borde, hover verde */
+    .brand-logo-card {
+      flex-shrink:0;
+      padding:1rem 1.875rem;
+      background:var(--white);
+      border:1.5px solid rgba(0,0,0,.07);
+      border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      min-width:150px;height:64px;
+      transition:background .25s,border-color .25s,transform .25s,box-shadow .25s;
+      cursor:default;
+      box-shadow:0 2px 12px rgba(0,0,0,.04);
+    }
+    .brand-logo-card:hover {
+      background:var(--green-900);
+      border-color:var(--green-900);
+      transform:translateY(-4px);
+      box-shadow:0 12px 32px rgba(7,28,17,.18);
+    }
+    .brand-logo-card:hover .brand-logo-name { color:var(--white) !important; }
+
+    .brand-logo-name {
+      font-family:var(--f-sans);
+      font-size:.6875rem;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(0,0,0,.55);
+      white-space:nowrap;
+      line-height:1;
+      transition:color .25s;
+    }
+    .brand-logo--serif .brand-logo-name {
+      font-family:var(--f-display);
+      font-size:.9375rem;
+      font-weight:400;
+      letter-spacing:.06em;
+    }
+    .brand-logo--italic .brand-logo-name {
+      font-style:italic;
+      font-family:var(--f-display);
+      font-size:.9375rem;
+    }
+    .brand-logo--wide .brand-logo-name { letter-spacing:.2em; }
+
+    /* ──────────────────────────────────────
+       RESEÑAS
+    ────────────────────────────────────── */
+    .reviews-section{background:var(--white);padding-block:clamp(5rem,10vw,10rem);overflow:hidden}
+    .reviews-track{display:flex;gap:1.25rem;width:max-content;animation:reviewsScroll 45s linear infinite;padding-block:.5rem}
+    .reviews-track:hover{animation-play-state:paused}
+    @keyframes reviewsScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .rcard{
+      width:360px;flex-shrink:0;
+      padding:2rem 2.25rem;border-radius:20px;
+      background:var(--cream-50);border:1px solid rgba(0,0,0,.04);
+    }
+    .rcard__stars{color:var(--gold);font-size:.75rem;letter-spacing:3px;margin-bottom:1rem}
+    .rcard__quote{font-family:var(--f-display);font-size:1.0625rem;font-style:italic;line-height:1.7;color:var(--dark);margin-bottom:1.5rem}
+    .rcard__author{display:flex;align-items:center;gap:.75rem}
+    .rcard__av{width:36px;height:36px;border-radius:50%;background:var(--green-100);display:flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0}
+    .rcard__name{font-size:.875rem;font-weight:600;line-height:1.2}
+    .rcard__date{font-size:.75rem;color:var(--gray-600)}
+
+    /* ──────────────────────────────────────
+       FAQ — editorial numbered
+    ────────────────────────────────────── */
+    .faq-section{background:var(--green-900);padding-block:clamp(5rem,10vw,10rem)}
+    .faq-editorial{margin-top:4rem}
+    .faq-editorial-item{
+      border-top:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+    .faq-editorial-item:last-child{border-bottom:1px solid rgba(255,255,255,.08)}
+    .faq-editorial-q{
+      display:grid;grid-template-columns:80px 1fr auto;
+      align-items:center;gap:2rem;
+      padding:2.25rem 0;cursor:pointer;
+      transition:opacity .2s;
+    }
+    .faq-editorial-q:hover{opacity:.75}
+    .faq-editorial-num{
+      font-family:var(--f-display);font-size:1rem;font-weight:300;
+      color:rgba(255,255,255,.2);letter-spacing:.05em;
+    }
+    .faq-editorial-text{
+      font-family:var(--f-display);font-size:clamp(1.25rem,2.5vw,1.875rem);
+      font-weight:300;color:var(--white);line-height:1.2;
+    }
+    .faq-editorial-icon{
+      width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.15);
+      display:flex;align-items:center;justify-content:center;
+      color:rgba(255,255,255,.5);font-size:1.25rem;flex-shrink:0;
+      transition:all .35s;
+    }
+    .faq-editorial-item.open .faq-editorial-icon{
+      background:var(--gold);border-color:var(--gold);color:var(--white);transform:rotate(45deg);
+    }
+    .faq-editorial-a{height:0;overflow:hidden}
+    .faq-editorial-a-inner{
+      padding:0 0 2.5rem 80px;
+      font-size:1rem;color:rgba(255,255,255,.5);line-height:1.85;max-width:640px;
+    }
+    @media(max-width:640px){
+      .faq-editorial-q{grid-template-columns:48px 1fr auto;gap:1rem}
+      .faq-editorial-a-inner{padding-left:48px}
+    }
+
+    /* ──────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────── */
+    @media(max-width:1024px){
+      .about-statement{grid-template-columns:1fr;gap:2rem}
+      .about-big-num{font-size:clamp(8rem,20vw,14rem)}
+      .about-pillars{grid-template-columns:1fr 1fr}
+      .benefits-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:640px){
+      .about-pillars{grid-template-columns:1fr}
+      .benefits-grid{grid-template-columns:1fr}
+      .hero__stats{gap:1.5rem;flex-wrap:wrap}
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="loader" id="loader">
+  <div>
+    <div class="loader__word"><span class="loader__word-inner" id="lw1">Farmacia</span></div>
+    <div class="loader__word" style="margin-top:.25rem"><span class="loader__word-inner" id="lw2" style="color:var(--gold)">Los Robles</span></div>
+  </div>
+  <div class="loader__bar"><div class="loader__fill" id="loaderFill"></div></div>
+</div>
+<div class="toasts"></div>
+
+<!-- SEARCH -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close-btn" id="searchClose">&#x2715;</button>
+  <form class="search-form" onsubmit="return false">
+    <input class="search-input" id="searchInput" type="search" placeholder="Buscar productos, marcas&#x2026;" autocomplete="off" />
+  </form>
+  <div class="search-tags">
+    <span class="search-tag">Protector solar</span><span class="search-tag">Vitamina C</span>
+    <span class="search-tag">Isdin</span><span class="search-tag">La Roche-Posay</span>
+    <span class="search-tag">Col&#xe1;geno</span><span class="search-tag">Probiticos</span>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3 style="font-family:var(--f-display);font-size:1.375rem">Mi carrito</h3><button data-cart-close class="btn btn-icon btn-ghost">&#x2715;</button></div>
+  <div class="cart-body"><div class="cart-empty"><div class="cart-empty-icon">&#x1F6D2;</div><p style="font-weight:600;margin-bottom:.25rem">Tu carrito está vacío</p><small style="color:var(--gray-600)">Añade productos para comenzar</small></div></div>
+  <div class="cart-foot"><div class="cart-total"><span>Total estimado</span><span>0,00 &#x20AC;</span></div><a href="checkout.html" class="btn btn-dark btn-lg" style="width:100%">Tramitar pedido &#x2192;</a></div>
+</aside>
+
+<!-- MOBILE MENU -->
+<nav class="mob-menu" id="mobMenu">
+  <button id="mobClose" style="position:absolute;top:1.5rem;right:var(--gutter);width:44px;height:44px;background:rgba(255,255,255,.07);border-radius:100px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;border:none">&#x2715;</button>
+  <div style="margin-top:4rem">
+    <a href="index.html" class="mob-menu__link">Inicio</a>
+    <a href="tienda.html" class="mob-menu__link">Tienda</a>
+    <a href="nosotros.html" class="mob-menu__link">Nosotros</a>
+    <a href="blog.html" class="mob-menu__link">Blog</a>
+    <a href="contacto.html" class="mob-menu__link">Contacto</a>
+  </div>
+  <div style="margin-top:auto;padding-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap">
+    <a href="tienda.html" class="btn btn-gold btn-lg">Ver tienda &#x2192;</a>
+  </div>
+</nav>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><img src="img/farmacia-logo.jpg" alt="Farmacia Los Robles" style="height:36px;width:36px;object-fit:cover;border-radius:9px;display:block" /><span>Los Robles</span></a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="nav__link active">Inicio</a></li>
+      <li><a href="tienda.html" class="nav__link">Tienda</a></li>
+      <li><a href="nosotros.html" class="nav__link">Nosotros</a></li>
+      <li><a href="blog.html" class="nav__link">Blog</a></li>
+      <li><a href="contacto.html" class="nav__link">Contacto</a></li>
+    </ul>
+    <div class="nav__right">
+      <button class="nav__icon-btn" data-search><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <a href="cuenta.html" class="nav__icon-btn"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <button class="nav__icon-btn" data-cart><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+      <a href="tienda.html" class="nav__cta">Ver tienda</a>
+      <button class="nav__hamburger" id="menuBtn"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════
+     HERO — Cinematic scroll storytelling
+═══════════════════════════════════ -->
+<div id="hero-scene">
+<section id="hero" aria-label="Hero Farmacia Los Robles">
+
+  <!-- Imagen de fondo fija (misma durante todo el scroll) -->
+  <div class="hero-bg">
+    <img src="img/farmacia-interior-mostrador.jpg"
+         alt="Interior Farmacia Los Robles Lanzarote" loading="eager" />
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+
+  <!-- Indicadores de fase (2) -->
+  <div class="hero-steps">
+    <div class="hero-step is-active" id="hs1"></div>
+    <div class="hero-step" id="hs2"></div>
+  </div>
+
+  <!-- ══ FASE 1: Texto centrado — llega desde los laterales ══ -->
+  <div class="hero-phase is-active" id="heroP1">
+    <div class="hero-eyebrow" id="heroEyebrow">
+      <div class="hero-eyebrow__dot">&#x2736;</div>
+      Farmacia certificada &middot; Lanzarote desde 2004
+    </div>
+    <h1 class="hero-h1">
+      <span class="hero-clip-line"><span class="hero-clip-inner" id="hc1">Tu salud,</span></span>
+      <span class="hero-clip-line"><span class="hero-clip-inner" id="hc2">nuestra</span></span>
+      <span class="hero-clip-line"><span class="hero-clip-inner" id="hc3"><em>pasi&oacute;n.</em></span></span>
+    </h1>
+    <p class="hero-subtitle" id="heroSub">Farmacia de referencia &middot; Arrecife, Lanzarote</p>
+    <div class="hero-cta-center" id="heroCTA">
+      <a href="tienda.html" class="btn btn-gold btn-lg" data-magnetic>Ir a la tienda &#x2192;</a>
+    </div>
+  </div>
+
+  <!-- ══ FASE 2: 4 fotos en esquinas → oscurecer → texto ══ -->
+  <div class="hero-phase" id="heroP2">
+    <div class="hero-corner hero-corner--tl" id="hCtl">
+      <img src="img/farmacia-exterior.jpg" alt="Fachada Farmacia Los Robles" />
+    </div>
+    <div class="hero-corner hero-corner--tr" id="hCtr">
+      <img src="img/farmacia-interior-optica.jpg" alt="Óptica Los Robles" />
+    </div>
+    <div class="hero-corner hero-corner--bl" id="hCbl">
+      <img src="img/farmacia-seccion-infantil.jpg" alt="Sección Bebés" />
+    </div>
+    <div class="hero-corner hero-corner--br" id="hCbr">
+      <img src="img/farmacia-interior-amplio.jpg" alt="Interior amplio" />
+    </div>
+    <div class="hero-p2-overlay" id="hP2Ov"></div>
+    <div class="hero-p2-center" id="hP2Txt">
+      <p class="hero-p2-quote">15.000 familias<br>conf&iacute;an en<br><em>nosotros.</em></p>
+      <a href="#about" class="btn btn-outline-white btn-lg"
+         onclick="event.preventDefault();lenis&&lenis.scrollTo('#main-content',{offset:-40})">
+        Conocer nuestra historia &#x2192;
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll" id="heroScroll">
+    <div class="hero-scroll__line"></div>
+    <span class="hero-scroll__label">Scroll</span>
+  </div>
+
+</section>
+
+<!-- Spacer transparente — main-content sube y cubre el hero -->
+<div id="heroSpacer"></div>
+
+</div><!-- /hero-scene -->
+
+<!-- ═══════════════════════════════════
+     MAIN CONTENT — slides over hero
+═══════════════════════════════════ -->
+<div id="main-content">
+
+  <!-- ═══════ SOBRE NOSOTROS ═══════ -->
+  <section class="about-section" id="about">
+    <div class="about-split">
+
+      <!-- Izquierda: foto de la farmacia -->
+      <div class="about-split__img anim-right">
+        <img src="img/farmacia-interior-panorama.jpg" alt="Interior Farmacia Los Robles Lanzarote" />
+        <div class="about-img-badge">
+          <div class="about-img-badge__num">20</div>
+          <div class="about-img-badge__txt">años de historia</div>
+        </div>
+      </div>
+
+      <!-- Derecha: contenido editorial -->
+      <div class="about-split__content">
+        <div class="about-split__ghost">20</div>
+        <div class="about-split__eyebrow anim-up">Farmacia Los Robles &middot; Lanzarote</div>
+        <h2 class="about-split__title anim-up" data-delay=".08">
+          Nacidos para<br>
+          <em>cuidarte.</em>
+        </h2>
+        <p class="about-split__body anim-up" data-delay=".16">
+          En 2004, la Dra. Carmen Robles abri&oacute; las puertas con una idea clara: que cada persona se fuera con lo que necesita de verdad, bien asesorada. Hoy, 15.000 familias despu&eacute;s, seguimos siendo exactamente eso.
+        </p>
+        <div class="about-split__ctas anim-up" data-delay=".22">
+          <a href="tienda.html" class="btn btn-gold btn-lg" data-magnetic>Explorar la tienda &#x2192;</a>
+          <a href="nosotros.html" class="btn btn-outline-dark btn-lg">Nuestro equipo</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ MARCAS ═══════ -->
+  <section class="brands-section" id="brands">
+    <div class="brands-marquee-wrap">
+      <div class="brands-row">
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Av&egrave;ne</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Bella Aurora</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Bioderma</span></div>
+        <div class="brand-logo-card brand-logo--italic"><span class="brand-logo-name">Caudalíe</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">CeraVe</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Gema Herrer&iacute;as</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.2em">ISDIN</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Isdinceutics</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">La Roche-Posay</span></div>
+        <!-- duplicado para bucle infinito -->
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Av&egrave;ne</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Bella Aurora</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Bioderma</span></div>
+        <div class="brand-logo-card brand-logo--italic"><span class="brand-logo-name">Caudalíe</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">CeraVe</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Gema Herrer&iacute;as</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.2em">ISDIN</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Isdinceutics</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">La Roche-Posay</span></div>
+      </div>
+    </div>
+    <div class="brands-marquee-wrap" style="margin-top:1rem">
+      <div class="brands-row brands-row--rev">
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.18em">LACER</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Martiderm</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Neutrogena</span></div>
+        <div class="brand-logo-card brand-logo--italic"><span class="brand-logo-name">Nuxe</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Rilastil</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Sensilis</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Somatoline</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Suavinex</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.2em">VICHY</span></div>
+        <!-- duplicado -->
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.18em">LACER</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Martiderm</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Neutrogena</span></div>
+        <div class="brand-logo-card brand-logo--italic"><span class="brand-logo-name">Nuxe</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Rilastil</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Sensilis</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name">Somatoline</span></div>
+        <div class="brand-logo-card brand-logo--serif"><span class="brand-logo-name">Suavinex</span></div>
+        <div class="brand-logo-card"><span class="brand-logo-name" style="letter-spacing:.2em">VICHY</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════ LO MÁS BUSCADO ═══════ -->
+  <section class="popular-section" id="popular">
+    <div class="wrap">
+      <div class="popular-head">
+        <div></div>
+        <div class="anim-right" style="display:flex;flex-direction:column;align-items:flex-end;gap:1.25rem">
+          <a href="tienda.html" class="btn btn-dark btn-lg">Ver todos &#x2192;</a>
+          <div class="filter-bar" id="filterBar">
+            <button class="filter-btn active" onclick="filterProds(this,'todos')">Todos</button>
+            <button class="filter-btn" onclick="filterProds(this,'solar')">Solar</button>
+            <button class="filter-btn" onclick="filterProds(this,'cosmetica')">Cosmética</button>
+            <button class="filter-btn" onclick="filterProds(this,'nutricion')">Nutrición</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prods-grid" id="prodsGrid">
+        <div class="pcard" data-cat="solar">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x2600;&#xFE0F;</div><div class="pcard__badges"><span class="pcard__badge pcard__badge--top">N&#x00BA;1</span></div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Isdin</div><div class="pcard__name">Eryfotona Actinica Mineral SPF 100+</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(234)</span></div><div class="pcard__price"><span class="pcard__price-now">34,90&thinsp;&#x20AC;</span><span class="pcard__price-was">39,90&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="cosmetica">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1F9F4;</div><div class="pcard__badges"><span class="pcard__badge pcard__badge--new">Nuevo</span></div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">La Roche-Posay</div><div class="pcard__name">Cicaplast Baume B5+ Regenerador 40ml</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star pcard__star--empty">&#x2605;</span><span class="pcard__reviews">(189)</span></div><div class="pcard__price"><span class="pcard__price-now">15,50&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="nutricion">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1F48A;</div><div class="pcard__badges"><span class="pcard__badge pcard__badge--sale">-25%</span></div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Metagenics</div><div class="pcard__name">Col&#xe1;geno Marino + Vitamina C &middot; 180 c&#xe1;ps.</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(97)</span></div><div class="pcard__price"><span class="pcard__price-now">29,95&thinsp;&#x20AC;</span><span class="pcard__price-was">39,95&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="cosmetica">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1F331;</div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Vichy</div><div class="pcard__name">Min&#xe9;ral 89 Concentrado Reconstituyente 75ml</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star pcard__star--empty">&#x2605;</span><span class="pcard__reviews">(312)</span></div><div class="pcard__price"><span class="pcard__price-now">26,80&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="solar">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1F31E;</div><div class="pcard__badges"><span class="pcard__badge pcard__badge--new">2025</span></div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">La Roche-Posay</div><div class="pcard__name">Anthelios UVMune 400 Fluid SPF 50+</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(389)</span></div><div class="pcard__price"><span class="pcard__price-now">23,90&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="nutricion">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x26A1;</div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Solgar</div><div class="pcard__name">Vitamina D3 2000 UI + K2 &middot; 60 c&#xe1;ps.</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(178)</span></div><div class="pcard__price"><span class="pcard__price-now">24,90&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="cosmetica">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1FA77;</div><div class="pcard__badges"><span class="pcard__badge pcard__badge--sale">-18%</span></div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Bioderma</div><div class="pcard__name">Sensibio H2O Agua Micelar 500ml</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(567)</span></div><div class="pcard__price"><span class="pcard__price-now">18,50&thinsp;&#x20AC;</span><span class="pcard__price-was">22,90&thinsp;&#x20AC;</span></div></div>
+        </div>
+        <div class="pcard" data-cat="solar">
+          <div class="pcard__media"><div class="pcard__media-inner">&#x1F476;</div><button class="pcard__wish">&#x2665;</button><button class="btn btn-dark btn-sm pcard__cta" data-add-cart>+&nbsp;A&#xF1;adir</button></div>
+          <div class="pcard__info"><div class="pcard__brand">Mustela</div><div class="pcard__name">Solar SPF 50+ Spray Mineral Ni&#xF1;os 200ml</div><div class="pcard__stars"><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__star">&#x2605;</span><span class="pcard__reviews">(123)</span></div><div class="pcard__price"><span class="pcard__price-now">19,95&thinsp;&#x20AC;</span></div></div>
+        </div>
+      </div>
+
+      <div class="anim-up" style="text-align:center;margin-top:3.5rem">
+        <a href="tienda.html" class="btn btn-dark btn-lg" style="padding:1.125rem 2.75rem">
+          Ver los 5.000+ productos &#x2192;
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════ FAQ — EDITORIAL ═══════ -->
+  <section class="faq-section" id="faq">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;margin-bottom:0">
+        <div>
+          <div class="section-label section-label--white anim-up" style="margin-bottom:1.25rem">Preguntas frecuentes</div>
+          <h2 class="anim-up" style="font-family:var(--f-display);font-size:clamp(2.5rem,5vw,5rem);font-weight:300;color:var(--white);line-height:1" data-delay=".1">
+            Todo lo que<br><em style="color:var(--gold);font-style:italic">quieres saber</em>
+          </h2>
+        </div>
+        <div class="anim-right">
+          <a href="contacto.html" class="btn btn-outline-white btn-lg">Más preguntas &#x2192;</a>
+        </div>
+      </div>
+
+      <div class="faq-editorial">
+        <div class="faq-editorial-item">
+          <div class="faq-editorial-q">
+            <span class="faq-editorial-num">01</span>
+            <span class="faq-editorial-text">¿Cuánto tarda el envío a mi casa?</span>
+            <div class="faq-editorial-icon">+</div>
+          </div>
+          <div class="faq-editorial-a"><div class="faq-editorial-a-inner">Pedidos antes de las 14:00h (días laborables) se entregan al día siguiente en Península y Baleares. Canarias tarda entre 3 y 5 días. El envío es gratuito a partir de 29€.</div></div>
+        </div>
+        <div class="faq-editorial-item">
+          <div class="faq-editorial-q">
+            <span class="faq-editorial-num">02</span>
+            <span class="faq-editorial-text">¿Puedo consultar con un farmacéutico antes de comprar?</span>
+            <div class="faq-editorial-icon">+</div>
+          </div>
+          <div class="faq-editorial-a"><div class="faq-editorial-a-inner">Sí, y es completamente gratuito. Nuestro equipo está disponible por WhatsApp, email y chat en directo. Te asesoramos sobre qué producto es el más adecuado para ti.</div></div>
+        </div>
+        <div class="faq-editorial-item">
+          <div class="faq-editorial-q">
+            <span class="faq-editorial-num">03</span>
+            <span class="faq-editorial-text">¿Cómo devuelvo un producto si no me convence?</span>
+            <div class="faq-editorial-icon">+</div>
+          </div>
+          <div class="faq-editorial-a"><div class="faq-editorial-a-inner">Tienes 30 días desde la recepción para devolver cualquier producto sin abrir. Contacta con nosotros y te enviamos la etiqueta de devolución gratuita.</div></div>
+        </div>
+        <div class="faq-editorial-item">
+          <div class="faq-editorial-q">
+            <span class="faq-editorial-num">04</span>
+            <span class="faq-editorial-text">¿Son productos originales y con garantía?</span>
+            <div class="faq-editorial-icon">+</div>
+          </div>
+          <div class="faq-editorial-a"><div class="faq-editorial-a-inner">Absolutamente. Somos farmacia autorizada por el Ministerio de Sanidad. Todos los productos provienen de distribuidores oficiales y tienen garantía completa del fabricante.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer__main wrap">
+      <div class="footer__brand">
+        <div class="footer-logo"><img src="img/farmacia-logo.jpg" alt="Farmacia Los Robles" style="height:36px;width:36px;object-fit:cover;border-radius:9px;display:block" />Los Robles</div>
+        <p>Tu farmacia de confianza en Lanzarote desde 2004.</p>
+        <div class="footer__social">
+          <a href="#" class="footer__soc-link">&#x1F4F8;</a>
+          <a href="#" class="footer__soc-link">&#x1F44D;</a>
+          <a href="https://wa.me/34928597161" class="footer__soc-link" target="_blank">&#x1F4AC;</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__col-title">Tienda</div>
+        <ul class="footer__links">
+          <li><a href="cat-cosmetica.html" class="footer__flink">Cosmética &amp; Belleza</a></li>
+          <li><a href="cat-dermocosmetica.html" class="footer__flink">Dermocosmética</a></li>
+          <li><a href="cat-solar.html" class="footer__flink">Protección Solar</a></li>
+          <li><a href="cat-nutricion.html" class="footer__flink">Nutrición &amp; Vitaminas</a></li>
+          <li><a href="cat-bebes.html" class="footer__flink">Bebés &amp; Maternidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Farmacia</div>
+        <ul class="footer__links">
+          <li><a href="nosotros.html" class="footer__flink">Quiénes somos</a></li>
+          <li><a href="blog.html" class="footer__flink">Blog de salud</a></li>
+          <li><a href="contacto.html" class="footer__flink">Contacto</a></li>
+          <li><a href="cuenta.html" class="footer__flink">Mi cuenta</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Ayuda</div>
+        <ul class="footer__links">
+          <li><a href="#faq" class="footer__flink">FAQ</a></li>
+          <li><a href="#" class="footer__flink">Envíos y plazos</a></li>
+          <li><a href="#" class="footer__flink">Devoluciones</a></li>
+          <li><a href="#" class="footer__flink">Privacidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Contacto</div>
+        <div class="footer__contact-item"><span>&#x1F4CD;</span><span>C/ Los Robles, 12<br>35500 Arrecife, Lanzarote</span></div>
+        <div class="footer__contact-item"><span>&#x1F4DE;</span><a href="tel:+34928597161" style="color:rgba(255,255,255,.55)">928 597 161</a></div>
+        <div class="footer__contact-item"><span>&#x1F4E7;</span><a href="mailto:info@farmacialosrobles.es" style="color:rgba(255,255,255,.55)">info@farmacialosrobles.es</a></div>
+        <div class="footer__contact-item"><span>&#x1F550;</span><span>Lun–Vie 8:00–22:00<br>Sáb 9:00–21:00</span></div>
+      </div>
+    </div>
+    <div class="footer__bottom wrap">
+      <p>© 2025 Farmacia Los Robles Lanzarote</p>
+      <div class="footer__payments">
+        <div class="footer__pay">VISA</div><div class="footer__pay">MC</div><div class="footer__pay">PayPal</div><div class="footer__pay">&#x1F512; SSL</div>
+      </div>
+      <div class="footer__legal">
+        <a href="#" class="footer__flink">Privacidad</a>
+        <a href="#" class="footer__flink">Cookies</a>
+        <a href="#" class="footer__flink">Legal</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /#main-content -->
+
+<a href="https://wa.me/34928597161" class="wa-fab" target="_blank" aria-label="WhatsApp">
+  <svg width="26" height="26" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ═══════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+let lenis;
+
+/* ── LENIS ────────────────────── */
+function initLenis() {
+  lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+
+/* ── LOADER ───────────────────── */
+function initLoader() {
+  // Fase 1: título llega desde los laterales (efecto rebote)
+  gsap.set('#hc1', { x: '-120vw', opacity: 0 });
+  gsap.set('#hc2', { x:  '120vw', opacity: 0 });
+  gsap.set('#hc3', { x: '-120vw', opacity: 0 });
+  gsap.set(['#heroEyebrow','#heroSub','#heroCTA','#heroScroll','#heroOpenBadge'], { opacity: 0, y: 24 });
+
+  // Fase 2: fotos empiezan fuera de pantalla en sus esquinas
+  gsap.set('#hCtl', { x: '-100%', y: '-100%', opacity: 0, rotation: -12 });
+  gsap.set('#hCtr', { x:  '100%', y: '-100%', opacity: 0, rotation:  12 });
+  gsap.set('#hCbl', { x: '-100%', y:  '100%', opacity: 0, rotation:   8 });
+  gsap.set('#hCbr', { x:  '100%', y:  '100%', opacity: 0, rotation:  -8 });
+  gsap.set('#hP2Ov', { opacity: 0 });
+  gsap.set('#hP2Txt', { opacity: 0, scale: .88 });
+
+  const tl = gsap.timeline();
+  tl.to(['#lw1','#lw2'], { y: '0%', duration: .9, stagger: .15, ease: 'power4.out' })
+    .to('#loaderFill', { scaleX: 1, duration: .9, ease: 'power2.inOut' }, .3)
+    .to('#loader', { yPercent: -100, duration: .8, ease: 'power4.in', delay: .15,
+        onComplete(){
+          document.getElementById('loader').style.display = 'none';
+          initHeroScroll();
+          ScrollTrigger.refresh();
+        }
+    })
+    // Badge de horario
+    .to('#heroOpenBadge', { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, '-=.4')
+    // Eyebrow
+    .to('#heroEyebrow', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, '-=.4')
+    // Título: 3 líneas vienen de los laterales con rebote
+    .to('#hc1', { x: '0vw', opacity: 1, duration: 1.4, ease: 'back.out(2.5)' }, '-=.5')
+    .to('#hc2', { x: '0vw', opacity: 1, duration: 1.4, ease: 'back.out(2.5)' }, '-=1.28')
+    .to('#hc3', { x: '0vw', opacity: 1, duration: 1.4, ease: 'back.out(2.8)' }, '-=1.28')
+    // Subtítulo y CTA
+    .to('#heroSub',    { opacity: 1, y: 0, duration: .8, ease: 'power3.out' }, '-=.9')
+    .to('#heroCTA',    { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, '-=.65')
+    .to('#heroScroll', { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, '-=.5');
+}
+
+/* ── HERO SCROLL — 2 fases: texto centrado → fotos esquinas ── */
+function initHeroScroll() {
+  const scene = document.getElementById('hero-scene');
+  if (!scene) return;
+
+  // Zoom lento de fondo durante todo el scroll
+  gsap.to('.hero-bg img', {
+    scale: 1.14, ease: 'none',
+    scrollTrigger: { trigger: scene, start: 'top top', end: 'bottom bottom', scrub: 2.5, invalidateOnRefresh: true }
+  });
+
+  function setStep(n) {
+    document.querySelectorAll('.hero-step').forEach((el,i) =>
+      el.classList.toggle('is-active', i === n));
+  }
+
+  // Timeline — 8 s mapeados linealmente al scroll (220vh de spacer)
+  // 0-3s = salida fase 1 | 3-8s = entrada fase 2 (fotos, overlay, texto)
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: scene, start: 'top top', end: 'bottom bottom',
+      scrub: 1.2, invalidateOnRefresh: true,
+      onUpdate(self) { setStep(self.progress < .45 ? 0 : 1); }
+    }
+  });
+
+  // ── FASE 1 → salida: todo vuela de vuelta a los lados ──
+  tl.to('#heroScroll',   { opacity: 0, duration: .3 }, 0)
+    .to('#heroOpenBadge',{ opacity: 0, y: -18, duration: .4 }, 0.1)
+    .to('#heroEyebrow',  { opacity: 0, y: -24, filter: 'blur(14px)', duration: .5 }, 0.15)
+    .to('#heroCTA',      { opacity: 0, y: -20, duration: .4 }, 0.2)
+    .to('#heroSub',      { opacity: 0, y: -18, duration: .4 }, 0.25)
+    // Líneas del título vuelan de vuelta a sus lados (imagen espejo del enter)
+    .to('#hc1', { x: '80vw', opacity: 0, duration: .75 }, 0.35)
+    .to('#hc2', { x: '-80vw', opacity: 0, duration: .75 }, 0.45)
+    .to('#hc3', { x: '70vw', opacity: 0, duration: .75 }, 0.55)
+
+  // ── FASE 2: fotos vuelan desde las esquinas hacia su posición ──
+    .to('#heroP2', { opacity: 1, duration: .05 }, 2.2)
+    .to('#hCtl', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.3)
+    .to('#hCtr', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.5)
+    .to('#hCbl', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.7)
+    .to('#hCbr', { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 1.0, ease: 'power3.out' }, 2.9)
+    // Pantalla se oscurece
+    .to('#hP2Ov', { opacity: 1, duration: 1.0 }, 4.2)
+    // Texto aparece con escala desde pequeño
+    .to('#hP2Txt', { opacity: 1, scale: 1, duration: .9, ease: 'power3.out' }, 4.9);
+
+  // Hero se escala ligeramente hacia abajo cuando main-content sube
+  gsap.to('#hero', {
+    scale: .94,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#main-content', start: 'top 100%', end: 'top 0%',
+      scrub: 1, invalidateOnRefresh: true
+    }
+  });
+}
+
+/* ── SCROLL REVEALS ───────────── */
+function initScrollReveals() {
+  gsap.utils.toArray('.anim-up').forEach(el => {
+    gsap.to(el, {
+      y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+      delay: parseFloat(el.dataset.delay || 0),
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+    });
+  });
+  gsap.utils.toArray('.anim-right').forEach(el => {
+    gsap.to(el, {
+      x: 0, opacity: 1, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+    });
+  });
+  gsap.utils.toArray('.anim-scale').forEach(el => {
+    gsap.to(el, {
+      scale: 1, opacity: 1, duration: 1, ease: 'back.out(1.5)',
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+    });
+  });
+}
+
+/* ── COUNTERS ─────────────────── */
+function initCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const obj = { val: 0 };
+    ScrollTrigger.create({
+      trigger: el, start: 'top 88%', once: true,
+      onEnter: () => gsap.to(obj, {
+        val: target, duration: 2.2, ease: 'power2.out',
+        onUpdate() {
+          el.textContent = (target % 1 === 0 ? Math.round(obj.val) : obj.val.toFixed(1)) + suffix;
+        }
+      })
+    });
+  });
+}
+
+/* ── CURSOR ───────────────────── */
+
+/* ── MAGNETIC ─────────────────── */
+function initMagnetic() {
+  document.querySelectorAll('[data-magnetic]').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width/2) * .35;
+      const y = (e.clientY - r.top - r.height/2) * .35;
+      gsap.to(btn, { x, y, duration:.4, ease:'power2.out' });
+    });
+    btn.addEventListener('mouseleave', () => gsap.to(btn, { x:0, y:0, duration:.6, ease:'elastic.out(1,.4)' }));
+  });
+}
+
+/* ── HEADER ───────────────────── */
+function initHeader() {
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('solid', window.scrollY > 80);
+  }, { passive: true });
+}
+
+/* ── MOBILE MENU ──────────────── */
+function initMobileMenu() {
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobMenu').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('mobClose').addEventListener('click', () => {
+    document.getElementById('mobMenu').classList.remove('open');
+    document.body.style.overflow = '';
+  });
+}
+
+/* ── SEARCH ───────────────────── */
+function initSearch() {
+  const o = document.getElementById('searchOverlay');
+  document.querySelectorAll('[data-search]').forEach(b => b.addEventListener('click', () => {
+    o.classList.add('open');
+    setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
+  }));
+  document.getElementById('searchClose').addEventListener('click', () => o.classList.remove('open'));
+  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+  window.addEventListener('keydown', e => { if(e.key==='Escape') o.classList.remove('open'); });
+}
+
+/* ── CART ─────────────────────── */
+function initCart() {
+  const ov = document.getElementById('cartOverlay');
+  const dr = document.getElementById('cartDrawer');
+  const open  = () => { ov.classList.add('open'); dr.classList.add('open'); document.body.style.overflow='hidden'; };
+  const close = () => { ov.classList.remove('open'); dr.classList.remove('open'); document.body.style.overflow=''; };
+  document.querySelectorAll('[data-cart]').forEach(b => b.addEventListener('click', open));
+  ov.addEventListener('click', close);
+  document.querySelectorAll('[data-cart-close]').forEach(b => b.addEventListener('click', close));
+  document.querySelectorAll('[data-add-cart]').forEach(b => b.addEventListener('click', () => { showToast('¡Añadido al carrito! 🛒'); open(); }));
+}
+
+/* ── TOAST ────────────────────── */
+window.showToast = function(msg) {
+  const c = document.querySelector('.toasts');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<span>✓</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 350); }, 3200);
+};
+
+/* ── FAQ EDITORIAL ────────────── */
+function initFAQ() {
+  document.querySelectorAll('.faq-editorial-item').forEach(item => {
+    item.querySelector('.faq-editorial-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-editorial-item.open').forEach(o => {
+        o.classList.remove('open');
+        gsap.to(o.querySelector('.faq-editorial-a'), { height: 0, duration: .35, ease: 'power2.inOut' });
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        const a = item.querySelector('.faq-editorial-a');
+        gsap.set(a, { height: 'auto' });
+        gsap.from(a, { height: 0, duration: .45, ease: 'power3.out' });
+      }
+    });
+  });
+}
+
+/* ── PRODUCT FILTER ───────────── */
+window.filterProds = function(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#prodsGrid .pcard').forEach(card => {
+    const show = cat === 'todos' || card.dataset.cat === cat;
+    gsap.to(card, { opacity: show?1:.2, scale: show?1:.95, duration: .35, ease: 'power2.out' });
+  });
+};
+
+/* ── INIT ─────────────────────── */
+(function init() {
+  initLenis();
+  initLoader();
+  initHeader();
+  initMobileMenu();
+  initSearch();
+  initCart();
+  initFAQ();
+  initMagnetic();
+  window.addEventListener('load', () => {
+    initScrollReveals();
+    initCounters();
+    ScrollTrigger.refresh();
+  });
+})();
+</script>
+</body>
+</html>
