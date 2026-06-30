@@ -80,9 +80,10 @@
             </label>
             <a href="#" style="font-size:.875rem;color:var(--c-green-soft)">¿Olvidaste tu contraseña?</a>
           </div>
-          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" onclick="event.preventDefault();showToast('Funcionalidad conectada con Shopify','success')">
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" id="btnLogin" onclick="doLogin(event)">
             Iniciar sesión →
           </button>
+          <p id="loginError" style="color:#e53935;font-size:.8rem;margin-top:.75rem;display:none"></p>
         </form>
 
         <div style="margin:1.5rem 0;display:flex;align-items:center;gap:1rem">
@@ -122,9 +123,10 @@
               Acepto los <a href="#" style="color:var(--c-green-soft)">Términos y condiciones</a> y la <a href="#" style="color:var(--c-green-soft)">Política de privacidad</a>
             </label>
           </div>
-          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" onclick="event.preventDefault();showToast('Cuenta creada correctamente','success')">
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center" id="btnRegister" onclick="doRegister(event)">
             Crear cuenta →
           </button>
+          <p id="registerError" style="color:#e53935;font-size:.8rem;margin-top:.75rem;display:none"></p>
         </form>
       </div>
 
@@ -132,26 +134,179 @@
         ¿Necesitas ayuda? <a href="contacto.html" style="color:var(--c-green-soft)">Contáctanos</a>
       </p>
     </div>
+
+    <!-- Dashboard (visible cuando hay sesión iniciada) -->
+    <div id="dashboard" style="display:none;width:100%;max-width:480px;background:var(--c-white);border-radius:var(--r-xl);padding:2.5rem;box-shadow:var(--shadow-lg)"></div>
+
   </div>
 </div>
 
 <script src="js/main.js"></script>
 <script>
+const SHOP  = 'a8ck6a-t6.myshopify.com';
+const TOKEN = 'db3d07fd2f93e53129fa1462ece7958a';
+
+async function shopifyMutation(mutation) {
+  const res = await fetch(`https://${SHOP}/api/2024-01/graphql.json`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': TOKEN },
+    body: JSON.stringify({ query: mutation })
+  });
+  return res.json();
+}
+
+/* ── LOGIN ── */
+async function doLogin(e) {
+  e.preventDefault();
+  const email    = document.querySelector('#form-login input[type="email"]').value.trim();
+  const password = document.getElementById('pwdInput').value;
+  const errEl    = document.getElementById('loginError');
+  const btn      = document.getElementById('btnLogin');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Completa todos los campos.'; errEl.style.display = 'block'; return; }
+  btn.textContent = 'Entrando…'; btn.disabled = true;
+  try {
+    const { data } = await shopifyMutation(`mutation {
+      customerAccessTokenCreate(input: { email: ${JSON.stringify(email)}, password: ${JSON.stringify(password)} }) {
+        customerAccessToken { accessToken expiresAt }
+        customerUserErrors { code message }
+      }
+    }`);
+    const result = data?.customerAccessTokenCreate;
+    if (result?.customerUserErrors?.length) {
+      errEl.textContent = traducirError(result.customerUserErrors[0].code);
+      errEl.style.display = 'block';
+    } else {
+      localStorage.setItem('farmCustomerToken', result.customerAccessToken.accessToken);
+      await mostrarDashboard(result.customerAccessToken.accessToken);
+    }
+  } catch { errEl.textContent = 'Error de conexión. Inténtalo de nuevo.'; errEl.style.display = 'block'; }
+  btn.textContent = 'Iniciar sesión →'; btn.disabled = false;
+}
+
+/* ── REGISTRO ── */
+async function doRegister(e) {
+  e.preventDefault();
+  const inputs   = document.querySelectorAll('#form-register input[type="text"], #form-register input[type="email"], #form-register input[type="password"]');
+  const firstName= inputs[0].value.trim();
+  const lastName = inputs[1].value.trim();
+  const email    = inputs[2].value.trim();
+  const password = inputs[3].value;
+  const confirm  = inputs[4].value;
+  const errEl    = document.getElementById('registerError');
+  const btn      = document.getElementById('btnRegister');
+  errEl.style.display = 'none';
+  if (!firstName || !email || !password) { errEl.textContent = 'Completa todos los campos.'; errEl.style.display = 'block'; return; }
+  if (password !== confirm) { errEl.textContent = 'Las contraseñas no coinciden.'; errEl.style.display = 'block'; return; }
+  if (password.length < 5) { errEl.textContent = 'La contraseña debe tener al menos 5 caracteres.'; errEl.style.display = 'block'; return; }
+  btn.textContent = 'Creando cuenta…'; btn.disabled = true;
+  try {
+    const { data } = await shopifyMutation(`mutation {
+      customerCreate(input: { firstName: ${JSON.stringify(firstName)}, lastName: ${JSON.stringify(lastName)}, email: ${JSON.stringify(email)}, password: ${JSON.stringify(password)} }) {
+        customer { id email }
+        customerUserErrors { code message }
+      }
+    }`);
+    const result = data?.customerCreate;
+    if (result?.customerUserErrors?.length) {
+      errEl.textContent = traducirError(result.customerUserErrors[0].code);
+      errEl.style.display = 'block';
+    } else {
+      // Auto-login tras registro
+      const { data: d2 } = await shopifyMutation(`mutation {
+        customerAccessTokenCreate(input: { email: ${JSON.stringify(email)}, password: ${JSON.stringify(password)} }) {
+          customerAccessToken { accessToken }
+        }
+      }`);
+      const tok = d2?.customerAccessTokenCreate?.customerAccessToken?.accessToken;
+      if (tok) { localStorage.setItem('farmCustomerToken', tok); await mostrarDashboard(tok); }
+    }
+  } catch { errEl.textContent = 'Error de conexión. Inténtalo de nuevo.'; errEl.style.display = 'block'; }
+  btn.textContent = 'Crear cuenta →'; btn.disabled = false;
+}
+
+/* ── DASHBOARD ── */
+async function mostrarDashboard(token) {
+  const { data } = await shopifyMutation(`{
+    customer(customerAccessToken: ${JSON.stringify(token)}) {
+      firstName lastName email phone
+      orders(first: 5, sortKey: PROCESSED_AT, reverse: true) {
+        edges { node {
+          name processedAt financialStatus fulfillmentStatus
+          totalPrice { amount currencyCode }
+          lineItems(first: 3) { edges { node { title quantity } } }
+        }}
+      }
+    }
+  }`);
+  const c = data?.customer;
+  if (!c) { doLogout(); return; }
+
+  document.querySelector('.auth-card').style.display = 'none';
+  const dash = document.getElementById('dashboard');
+  dash.style.display = 'block';
+  dash.innerHTML = `
+    <div style="text-align:center;margin-bottom:2rem">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--c-green-deep);color:#fff;font-family:var(--f-display);font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">${(c.firstName||'?')[0].toUpperCase()}</div>
+      <h2 style="font-family:var(--f-display);font-size:1.75rem;margin-bottom:.25rem">Hola, ${c.firstName} ${c.lastName||''}</h2>
+      <p style="color:var(--c-gray-mid);font-size:.875rem">${c.email}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem">
+      <a href="tienda.html" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1.25rem;background:var(--c-green-ghost);border-radius:var(--r-lg);text-decoration:none;color:var(--c-green-deep);font-size:.875rem;font-weight:600">🛍️<span>Ver tienda</span></a>
+      <a href="contacto.html" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1.25rem;background:var(--c-green-ghost);border-radius:var(--r-lg);text-decoration:none;color:var(--c-green-deep);font-size:.875rem;font-weight:600">💬<span>Contactar</span></a>
+    </div>
+    <h3 style="font-family:var(--f-display);font-size:1.1rem;margin-bottom:1rem">Últimos pedidos</h3>
+    ${c.orders.edges.length ? c.orders.edges.map(({node:o})=>`
+      <div style="border:1px solid var(--c-gray-light);border-radius:var(--r-md);padding:1rem;margin-bottom:.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <span style="font-weight:600;font-size:.875rem">${o.name}</span>
+          <span style="font-weight:700;color:var(--c-green-deep)">${parseFloat(o.totalPrice.amount).toFixed(2).replace('.',',')} €</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--c-gray-mid);margin-bottom:.5rem">${new Date(o.processedAt).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'})}</div>
+        <div style="font-size:.75rem;color:var(--c-gray-mid)">${o.lineItems.edges.map(({node:l})=>`${l.title} ×${l.quantity}`).join(' · ')}</div>
+      </div>`).join('') : '<p style="color:var(--c-gray-mid);font-size:.875rem;text-align:center;padding:1rem 0">Todavía no tienes pedidos.</p>'}
+    <button onclick="doLogout()" style="width:100%;margin-top:1.5rem;padding:.875rem;border-radius:var(--r-full);border:1.5px solid var(--c-gray-light);background:none;cursor:pointer;font-size:.875rem;color:var(--c-gray-mid);font-weight:500;transition:all .2s" onmouseover="this.style.borderColor='#e53935';this.style.color='#e53935'" onmouseout="this.style.borderColor='var(--c-gray-light)';this.style.color='var(--c-gray-mid)'">
+      Cerrar sesión
+    </button>`;
+}
+
+function doLogout() {
+  localStorage.removeItem('farmCustomerToken');
+  document.getElementById('dashboard').style.display = 'none';
+  document.querySelector('.auth-card').style.display = 'block';
+}
+
+function traducirError(code) {
+  const map = {
+    UNIDENTIFIED_CUSTOMER: 'Email o contraseña incorrectos.',
+    CUSTOMER_DISABLED:     'Esta cuenta está desactivada.',
+    TAKEN:                 'Este email ya está registrado.',
+    TOO_SHORT:             'La contraseña es demasiado corta.',
+    INVALID:               'Email no válido.',
+  };
+  return map[code] || 'Ocurrió un error. Inténtalo de nuevo.';
+}
+
 function authTab(tab) {
   const isLogin = tab === 'login';
-  document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
-  document.getElementById('form-register').style.display = isLogin ? 'none' : 'block';
-  document.getElementById('tab-login').style.cssText = isLogin
-    ? 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .2s'
-    : 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s';
-  document.getElementById('tab-register').style.cssText = !isLogin
-    ? 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .2s'
-    : 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s';
+  document.getElementById('form-login').style.display    = isLogin ? 'block' : 'none';
+  document.getElementById('form-register').style.display = isLogin ? 'none'  : 'block';
+  const on  = 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:600;background:var(--c-white);color:var(--c-charcoal);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .2s';
+  const off = 'flex:1;padding:.75rem;border-radius:9999px;font-size:.875rem;font-weight:500;color:var(--c-gray-mid);transition:all .2s';
+  document.getElementById('tab-login').style.cssText    = isLogin  ? on : off;
+  document.getElementById('tab-register').style.cssText = !isLogin ? on : off;
 }
+
 function togglePwd() {
   const i = document.getElementById('pwdInput');
   i.type = i.type === 'password' ? 'text' : 'password';
 }
+
+// Al cargar: si hay token guardado, mostrar dashboard directamente
+(async () => {
+  const tok = localStorage.getItem('farmCustomerToken');
+  if (tok) await mostrarDashboard(tok);
+})();
 </script>
 <div class="social-float">
   <a href="https://www.instagram.com/farmacialosrobles/" class="social-float__btn social-float__btn--ig" target="_blank" rel="noopener" aria-label="Instagram">
