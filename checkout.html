@@ -62,11 +62,11 @@
         <!-- Contact -->
         <div class="checkout-section">
           <h2 class="checkout-section__title">Información de contacto</h2>
-          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding:.875rem 1.25rem;background:var(--c-green-ghost);border-radius:var(--r-md)">
+          <div id="sessionBanner" style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding:.875rem 1.25rem;background:var(--c-green-ghost);border-radius:var(--r-md)">
             <svg width="16" height="16" fill="none" stroke="var(--c-green-soft)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span style="font-size:.875rem">¿Tienes cuenta? <a href="cuenta.html" style="color:var(--c-green-soft);font-weight:600">Inicia sesión</a> para autocompletar</span>
+            <span id="sessionMsg" style="font-size:.875rem">¿Tienes cuenta? <a href="cuenta.html" style="color:var(--c-green-soft);font-weight:600">Inicia sesión</a> para autocompletar</span>
           </div>
-          <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="tu@email.com" /></div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" id="co-email" class="form-input" placeholder="tu@email.com" /></div>
           <label style="display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--c-gray-mid);cursor:pointer">
             <input type="checkbox" style="accent-color:var(--c-green-soft)"> Recibir novedades y ofertas
           </label>
@@ -76,22 +76,22 @@
         <div class="checkout-section">
           <h2 class="checkout-section__title">Dirección de envío</h2>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
-            <div class="form-group"><label class="form-label">Nombre</label><input type="text" class="form-input" placeholder="Nombre" /></div>
-            <div class="form-group"><label class="form-label">Apellidos</label><input type="text" class="form-input" placeholder="Apellidos" /></div>
+            <div class="form-group"><label class="form-label">Nombre</label><input type="text" id="co-first" class="form-input" placeholder="Nombre" /></div>
+            <div class="form-group"><label class="form-label">Apellidos</label><input type="text" id="co-last" class="form-input" placeholder="Apellidos" /></div>
           </div>
-          <div class="form-group"><label class="form-label">Dirección</label><input type="text" class="form-input" placeholder="Calle y número" /></div>
-          <div class="form-group"><label class="form-label">Apartamento, piso, etc. (opcional)</label><input type="text" class="form-input" placeholder="Piso, puerta…" /></div>
+          <div class="form-group"><label class="form-label">Dirección</label><input type="text" id="co-addr" class="form-input" placeholder="Calle y número" /></div>
+          <div class="form-group"><label class="form-label">Apartamento, piso, etc. (opcional)</label><input type="text" id="co-addr2" class="form-input" placeholder="Piso, puerta…" /></div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem">
-            <div class="form-group"><label class="form-label">Código postal</label><input type="text" class="form-input" placeholder="35500" /></div>
-            <div class="form-group"><label class="form-label">Ciudad</label><input type="text" class="form-input" placeholder="Arrecife" /></div>
-            <div class="form-group"><label class="form-label">Provincia</label><input type="text" class="form-input" placeholder="Las Palmas" /></div>
+            <div class="form-group"><label class="form-label">Código postal</label><input type="text" id="co-zip" class="form-input" placeholder="35500" /></div>
+            <div class="form-group"><label class="form-label">Ciudad</label><input type="text" id="co-city" class="form-input" placeholder="Arrecife" /></div>
+            <div class="form-group"><label class="form-label">Provincia</label><input type="text" id="co-province" class="form-input" placeholder="Las Palmas" /></div>
           </div>
           <div class="form-group"><label class="form-label">País</label>
-            <select class="form-input form-select">
+            <select id="co-country" class="form-input form-select">
               <option>España</option><option>Portugal</option><option>Francia</option><option>Alemania</option>
             </select>
           </div>
-          <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" class="form-input" placeholder="+34 600 000 000" /></div>
+          <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" id="co-phone" class="form-input" placeholder="+34 600 000 000" /></div>
         </div>
 
         <!-- Shipping method -->
@@ -224,6 +224,51 @@
 </div>
 
 <script src="js/main.js"></script>
+<script>
+(async () => {
+  const token = localStorage.getItem('farmCustomerToken');
+  const banner = document.getElementById('sessionBanner');
+  const msg    = document.getElementById('sessionMsg');
+  if (!token) return;
+
+  try {
+    const res = await fetch('https://a8ck6a-t6.myshopify.com/api/2024-01/graphql.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': 'db3d07fd2f93e53129fa1462ece7958a' },
+      body: JSON.stringify({ query: `{
+        customer(customerAccessToken: ${JSON.stringify(token)}) {
+          firstName lastName email phone
+          defaultAddress { address1 address2 city province zip country }
+        }
+      }` })
+    });
+    const { data } = await res.json();
+    const c = data?.customer;
+    if (!c) return;
+
+    // Banner: sesión activa
+    banner.style.background = '#e8f5e9';
+    msg.innerHTML = `<svg width="14" height="14" fill="none" stroke="var(--c-green-soft)" stroke-width="2.5" viewBox="0 0 24 24" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>&nbsp; Sesión iniciada como <strong>${c.firstName} ${c.lastName||''}</strong> · <a href="cuenta.html" style="color:var(--c-green-soft)">Mi cuenta</a>`;
+
+    // Rellenar campos de contacto
+    const f = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+    f('co-email',    c.email);
+    f('co-first',    c.firstName);
+    f('co-last',     c.lastName);
+    f('co-phone',    c.phone);
+
+    // Rellenar dirección por defecto si existe
+    const a = c.defaultAddress;
+    if (a) {
+      f('co-addr',     a.address1);
+      f('co-addr2',    a.address2);
+      f('co-city',     a.city);
+      f('co-province', a.province);
+      f('co-zip',      a.zip);
+    }
+  } catch(e) { console.warn('No se pudo cargar la sesión', e); }
+})();
+</script>
 <div class="social-float">
   <a href="https://www.instagram.com/farmacialosrobles/" class="social-float__btn social-float__btn--ig" target="_blank" rel="noopener" aria-label="Instagram">
     <svg fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
