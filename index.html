@@ -954,10 +954,6 @@
           <div class="hero-p2-info-item hP2Item"><span>Lunes a viernes</span>8:00 &ndash; 22:00 h</div>
           <div class="hero-p2-info-item hP2Item"><span>S&aacute;bados</span>9:00 &ndash; 21:00 h</div>
         </div>
-        <a href="#about" class="btn btn-outline-white btn-lg" id="hP2Cta"
-           onclick="event.preventDefault();lenis&&lenis.scrollTo('#main-content',{offset:-40})">
-          Conocer nuestra historia &#x2192;
-        </a>
       </div>
       <div class="hero-p2-right">
         <figure class="hero-p2-img hero-p2-img--a" id="hP2Im1">
@@ -1268,7 +1264,6 @@ function initLoader() {
   gsap.set(['#hP2L1','#hP2L2'], { yPercent: 115 });
   gsap.set('#hP2Body', { opacity: 0, y: 26 });
   gsap.set('.hP2Item', { opacity: 0, y: 22 });
-  gsap.set('#hP2Cta', { opacity: 0, y: 22 });
   gsap.set('#hP2Im1', { clipPath: 'inset(100% 0% 0% 0%)', y: 60 });
   gsap.set('#hP2Im2', { clipPath: 'inset(0% 100% 0% 0%)', y: 40 });
   gsap.set('#hP2Im3', { clipPath: 'inset(0% 0% 100% 0%)', y: 30 });
@@ -1343,7 +1338,6 @@ function initHeroScroll() {
     .to('#hP2L2',   { yPercent: 0, duration: .7, ease: 'power4.out' }, 1.22)
     .to('#hP2Body', { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.35)
     .to('.hP2Item', { opacity: 1, y: 0, duration: .5, stagger: .12, ease: 'power3.out' }, 1.45)
-    .to('#hP2Cta',  { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 1.7)
     // Collage: revelado por barrido con parallax
     .to('#hP2Im1', { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: .9, ease: 'power3.out' }, 1.1)
     .to('#hP2Im2', { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: .9, ease: 'power3.out' }, 1.3)
