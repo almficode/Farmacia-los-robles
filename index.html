@@ -333,53 +333,89 @@
     /* CTA centrado */
     .hero-cta-center { margin-top:2.5rem; }
 
-    /* ── FASE 2: fotos en las 4 esquinas ── */
-    .hero-corner {
-      position:absolute;z-index:4;
-      overflow:hidden;border-radius:16px;
-      box-shadow:0 24px 70px rgba(0,0,0,.55);
-    }
-    .hero-corner img { width:100%;height:100%;object-fit:cover; }
-
-    .hero-corner--tl {
-      top:clamp(5rem,10vh,8rem); left:clamp(1rem,2.5vw,2.5rem);
-      width:clamp(160px,30vw,400px); height:clamp(110px,23vh,280px);
-    }
-    .hero-corner--tr {
-      top:clamp(5rem,10vh,8rem); right:clamp(1rem,2.5vw,2.5rem);
-      width:clamp(140px,26vw,340px); height:clamp(110px,23vh,280px);
-    }
-    .hero-corner--bl {
-      bottom:clamp(3rem,7vh,5.5rem); left:clamp(1rem,2.5vw,2.5rem);
-      width:clamp(140px,26vw,340px); height:clamp(100px,20vh,250px);
-    }
-    .hero-corner--br {
-      bottom:clamp(3rem,7vh,5.5rem); right:clamp(1rem,2.5vw,2.5rem);
-      width:clamp(160px,30vw,400px); height:clamp(100px,20vh,250px);
-    }
-    /* Overlay oscuro de fase 2 */
+    /* ── FASE 2: composición editorial ── */
     .hero-p2-overlay {
       position:absolute;inset:0;z-index:5;
-      background:rgba(4,10,6,.82);
+      background:
+        linear-gradient(100deg, rgba(4,12,8,.96) 0%, rgba(4,12,8,.88) 45%, rgba(4,12,8,.72) 100%);
       opacity:0;
     }
-    /* Texto central de fase 2 */
-    .hero-p2-center {
+    .hero-p2-grid {
       position:absolute;inset:0;z-index:6;
-      display:flex;flex-direction:column;
-      align-items:center;justify-content:center;
-      text-align:center;padding:clamp(1.5rem,5vw,4rem);
-      gap:1.5rem;
+      display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+      align-items:center;gap:clamp(2rem,5vw,5rem);
+      padding:calc(var(--nav-h) + 1.5rem) clamp(1.5rem,6vw,6rem) clamp(2rem,6vh,4rem);
+      max-width:1500px;margin:0 auto;
     }
-    .hero-p2-quote {
+    .hero-p2-left { text-align:left;display:flex;flex-direction:column;align-items:flex-start; }
+    .hero-p2-kicker {
+      display:flex;align-items:center;gap:.9rem;
+      font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:1.6rem;white-space:nowrap;
+    }
+    .hero-p2-kicker::before {
+      content:'';display:block;width:44px;height:1px;background:var(--gold);
+    }
+    .hero-p2-title {
+      font-family:var(--f-display);
+      font-size:clamp(2.4rem,5.2vw,4.6rem);
+      font-weight:800;line-height:1.02;letter-spacing:-.02em;
+      color:#fff;margin:0 0 1.6rem;
+    }
+    .hero-p2-title em { font-style:italic;color:var(--gold);font-weight:700; }
+    .hero-p2-lineclip { display:block;overflow:hidden;padding-bottom:.06em; }
+    .hero-p2-linein { display:block;will-change:transform; }
+    .hero-p2-body {
       font-family:var(--f-body,Inter,sans-serif);
-      font-size:clamp(.95rem,1.6vw,1.25rem);
-      font-weight:300;line-height:1.85;letter-spacing:.01em;
-      color:rgba(255,255,255,.88);
-      max-width:640px;
-      margin:0 auto;
+      font-size:clamp(.9rem,1.15vw,1.05rem);
+      font-weight:300;line-height:1.9;
+      color:rgba(255,255,255,.72);
+      max-width:520px;margin:0 0 2.2rem;
+      text-align:left;
     }
-    .hero-p2-quote em { font-style:normal;color:rgba(255,255,255,.88); }
+    .hero-p2-info {
+      display:flex;gap:clamp(1.4rem,3vw,3rem);
+      padding:1.4rem 0;margin-bottom:2.2rem;
+      border-top:1px solid rgba(255,255,255,.14);
+      border-bottom:1px solid rgba(255,255,255,.14);
+    }
+    .hero-p2-info-item {
+      font-size:.85rem;line-height:1.6;color:rgba(255,255,255,.85);
+      text-align:left;font-weight:400;
+    }
+    .hero-p2-info-item span {
+      display:block;font-size:.6rem;font-weight:700;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:.45rem;
+    }
+    /* Collage de imágenes a la derecha */
+    .hero-p2-right {
+      position:relative;height:min(66vh,560px);
+      display:none;
+    }
+    @media(min-width:900px){ .hero-p2-right{display:block} }
+    .hero-p2-img {
+      position:absolute;margin:0;overflow:hidden;border-radius:14px;
+      box-shadow:0 30px 80px rgba(0,0,0,.55);
+      will-change:transform;
+    }
+    .hero-p2-img img { width:100%;height:100%;object-fit:cover;display:block; }
+    .hero-p2-img--a {
+      top:0;right:8%;width:72%;height:56%;z-index:2;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .hero-p2-img--b {
+      bottom:0;left:0;width:52%;height:44%;z-index:3;
+      outline:1px solid rgba(200,169,110,.45);outline-offset:6px;
+    }
+    .hero-p2-img--c {
+      bottom:6%;right:0;width:38%;height:34%;z-index:1;
+      opacity:.9;
+    }
+    @media(max-width:899px){
+      .hero-p2-grid { grid-template-columns:1fr;align-content:center; }
+      .hero-p2-title { font-size:clamp(2.2rem,9vw,3rem); }
+      .hero-p2-info { flex-wrap:wrap;gap:1.2rem 2rem; }
+    }
 
     /* Badge horario */
     .hero-open-badge {
@@ -902,27 +938,38 @@
     </div>
   </div>
 
-  <!-- ══ FASE 2: 4 fotos en esquinas → oscurecer → texto ══ -->
+  <!-- ══ FASE 2: composición editorial — titular, info y collage ══ -->
   <div class="hero-phase" id="heroP2">
-    <div class="hero-corner hero-corner--tl" id="hCtl">
-      <img src="img/farmacia-exterior.jpg" alt="Fachada Farmacia Los Robles" />
-    </div>
-    <div class="hero-corner hero-corner--tr" id="hCtr">
-      <img src="img/farmacia-interior-optica.jpg" alt="Óptica Los Robles" />
-    </div>
-    <div class="hero-corner hero-corner--bl" id="hCbl">
-      <img src="img/farmacia-seccion-infantil.jpg" alt="Sección Bebés" />
-    </div>
-    <div class="hero-corner hero-corner--br" id="hCbr">
-      <img src="img/farmacia-interior-amplio.jpg" alt="Interior amplio" />
-    </div>
     <div class="hero-p2-overlay" id="hP2Ov"></div>
-    <div class="hero-p2-center" id="hP2Txt">
-      <p class="hero-p2-quote">En Farmacia Los Robles damos solución a tus necesidades de salud, belleza y bienestar.<br><br>Ubicados en la Rambla Medular de Arrecife, 85 (Lanzarote), contamos con un gran equipo humano para ofrecerte un servicio profesional, personalizado y de calidad.<br><br>Estamos abiertos: Lunes a viernes de 8:00 a 22:00 horas. Sábados de 9:00 a 21:00 horas.</p>
-      <a href="#about" class="btn btn-outline-white btn-lg"
-         onclick="event.preventDefault();lenis&&lenis.scrollTo('#main-content',{offset:-40})">
-        Conocer nuestra historia &#x2192;
-      </a>
+    <div class="hero-p2-grid">
+      <div class="hero-p2-left">
+        <div class="hero-p2-kicker" id="hP2Kick">Farmacia Los Robles &middot; Arrecife</div>
+        <h2 class="hero-p2-title">
+          <span class="hero-p2-lineclip"><span class="hero-p2-linein" id="hP2L1">Salud, belleza</span></span>
+          <span class="hero-p2-lineclip"><span class="hero-p2-linein" id="hP2L2">y <em>bienestar.</em></span></span>
+        </h2>
+        <p class="hero-p2-body" id="hP2Body">En Farmacia Los Robles damos soluci&oacute;n a tus necesidades de salud, belleza y bienestar. Contamos con un gran equipo humano para ofrecerte un servicio profesional, personalizado y de calidad.</p>
+        <div class="hero-p2-info">
+          <div class="hero-p2-info-item hP2Item"><span>D&oacute;nde estamos</span>Rambla Medular, 85<br>Arrecife &middot; Lanzarote</div>
+          <div class="hero-p2-info-item hP2Item"><span>Lunes a viernes</span>8:00 &ndash; 22:00 h</div>
+          <div class="hero-p2-info-item hP2Item"><span>S&aacute;bados</span>9:00 &ndash; 21:00 h</div>
+        </div>
+        <a href="#about" class="btn btn-outline-white btn-lg" id="hP2Cta"
+           onclick="event.preventDefault();lenis&&lenis.scrollTo('#main-content',{offset:-40})">
+          Conocer nuestra historia &#x2192;
+        </a>
+      </div>
+      <div class="hero-p2-right">
+        <figure class="hero-p2-img hero-p2-img--a" id="hP2Im1">
+          <img src="img/farmacia-interior-amplio.jpg" alt="Interior Farmacia Los Robles" />
+        </figure>
+        <figure class="hero-p2-img hero-p2-img--b" id="hP2Im2">
+          <img src="img/farmacia-exterior.jpg" alt="Fachada Farmacia Los Robles" />
+        </figure>
+        <figure class="hero-p2-img hero-p2-img--c" id="hP2Im3">
+          <img src="img/farmacia-interior-optica.jpg" alt="Óptica Los Robles" />
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -1215,13 +1262,16 @@ function initLoader() {
   gsap.set('#hc3', { x: '-120vw', opacity: 0 });
   gsap.set(['#heroEyebrow','#heroSub','#heroCTA','#heroScroll','#heroOpenBadge'], { opacity: 0, y: 24 });
 
-  // Fase 2: fotos empiezan fuera de pantalla en sus esquinas
-  gsap.set('#hCtl', { x: '-100%', y: '-100%', opacity: 0, rotation: -12 });
-  gsap.set('#hCtr', { x:  '100%', y: '-100%', opacity: 0, rotation:  12 });
-  gsap.set('#hCbl', { x: '-100%', y:  '100%', opacity: 0, rotation:   8 });
-  gsap.set('#hCbr', { x:  '100%', y:  '100%', opacity: 0, rotation:  -8 });
+  // Fase 2: estados iniciales de la composición editorial
   gsap.set('#hP2Ov', { opacity: 0 });
-  gsap.set('#hP2Txt', { opacity: 0, scale: .88 });
+  gsap.set('#hP2Kick', { opacity: 0, x: -28 });
+  gsap.set(['#hP2L1','#hP2L2'], { yPercent: 115 });
+  gsap.set('#hP2Body', { opacity: 0, y: 26 });
+  gsap.set('.hP2Item', { opacity: 0, y: 22 });
+  gsap.set('#hP2Cta', { opacity: 0, y: 22 });
+  gsap.set('#hP2Im1', { clipPath: 'inset(100% 0% 0% 0%)', y: 60 });
+  gsap.set('#hP2Im2', { clipPath: 'inset(0% 100% 0% 0%)', y: 40 });
+  gsap.set('#hP2Im3', { clipPath: 'inset(0% 0% 100% 0%)', y: 30 });
 
   const tl = gsap.timeline();
   tl.to(['#lw1','#lw2'], { y: '0%', duration: .9, stagger: .15, ease: 'power4.out' })
@@ -1284,14 +1334,22 @@ function initHeroScroll() {
     .to('#hc2', { x: '-80vw', opacity: 0, duration: .75 }, 0.45)
     .to('#hc3', { x: '70vw', opacity: 0, duration: .75 }, 0.55)
 
-  // ── FASE 2: todo aparece a la vez ──
+  // ── FASE 2: entrada editorial coreografiada ──
     .to('#heroP2', { opacity: 1, duration: .05 }, 0.9)
-    .to('#hCtl',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
-    .to('#hCtr',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
-    .to('#hCbl',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
-    .to('#hCbr',  { x: '0%', y: '0%', opacity: 1, rotation: 0, duration: 0.8, ease: 'power3.out' }, 0.9)
-    .to('#hP2Ov', { opacity: 1, duration: 0.7 }, 0.9)
-    .to('#hP2Txt',{ opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' }, 0.9);
+    .to('#hP2Ov',  { opacity: 1, duration: .7 }, 0.9)
+    // Texto: kicker → titular línea a línea → cuerpo → info → CTA
+    .to('#hP2Kick', { opacity: 1, x: 0, duration: .5, ease: 'power3.out' }, 1.0)
+    .to('#hP2L1',   { yPercent: 0, duration: .7, ease: 'power4.out' }, 1.1)
+    .to('#hP2L2',   { yPercent: 0, duration: .7, ease: 'power4.out' }, 1.22)
+    .to('#hP2Body', { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.35)
+    .to('.hP2Item', { opacity: 1, y: 0, duration: .5, stagger: .12, ease: 'power3.out' }, 1.45)
+    .to('#hP2Cta',  { opacity: 1, y: 0, duration: .5, ease: 'power3.out' }, 1.7)
+    // Collage: revelado por barrido con parallax
+    .to('#hP2Im1', { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: .9, ease: 'power3.out' }, 1.1)
+    .to('#hP2Im2', { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: .9, ease: 'power3.out' }, 1.3)
+    .to('#hP2Im3', { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: .9, ease: 'power3.out' }, 1.5)
+    // Tramo muerto: la fase 2 queda completa y visible antes de que el contenido cubra el hero
+    .to({}, { duration: .9 });
 
   // Hero se escala ligeramente hacia abajo cuando main-content sube
   gsap.to('#hero', {
