@@ -50,9 +50,10 @@
 <!-- HERO + HISTORIA unificados -->
 <section style="background:#071C11;position:relative;overflow:hidden">
 
-  <!-- Foto de fondo con overlay -->
-  <div style="position:absolute;inset:0;z-index:0">
-    <img src="img/farmacia-interior-panorama.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.22;display:block" />
+  <!-- Foto de fondo solo en el hero, fundida a verde sólido -->
+  <div style="position:absolute;top:0;left:0;right:0;height:min(100vh,820px);z-index:0;overflow:hidden">
+    <img src="img/farmacia-interior-panorama.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.28;display:block" />
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,28,17,.45) 0%,rgba(7,28,17,.62) 45%,rgba(7,28,17,.9) 78%,#071C11 100%)"></div>
   </div>
 
   <!-- Bloque hero editorial -->
@@ -78,16 +79,24 @@
     @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
     .svc-card{
       display:flex;align-items:center;gap:.9rem;
-      padding:1rem 1.15rem;border-radius:.9rem;
-      background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);
-      color:rgba(255,255,255,.85);font-size:.88rem;font-weight:500;line-height:1.4;
+      padding:1.05rem 1.2rem;border-radius:.9rem;
+      background:linear-gradient(150deg,#123722,#0C2818);
+      border:1px solid rgba(200,169,110,.18);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+      color:#fff;font-size:.88rem;font-weight:500;line-height:1.4;
       opacity:0;transform:translateY(26px);
-      transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),background .3s,border-color .3s;
+      transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),background .3s,border-color .3s,box-shadow .3s;
     }
     .svc-grid.visible .svc-card{opacity:1;transform:translateY(0)}
-    .svc-card:hover{background:rgba(200,169,110,.12);border-color:rgba(200,169,110,.45)}
-    .svc-card:hover .svc-num{color:#C8A96E}
-    .svc-num{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:900;color:rgba(255,255,255,.22);min-width:2rem;transition:color .3s;font-style:italic}
+    .svc-card:hover{background:linear-gradient(150deg,#1A4A2E,#123722);border-color:rgba(200,169,110,.6);box-shadow:0 16px 40px rgba(0,0,0,.45);transform:translateY(-3px)!important}
+    .svc-card:hover .svc-num{color:#071C11;background:#C8A96E}
+    .svc-num{
+      font-family:'Playfair Display',Georgia,serif;font-size:.95rem;font-weight:900;font-style:italic;
+      color:#C8A96E;background:rgba(200,169,110,.14);border:1px solid rgba(200,169,110,.3);
+      min-width:2.3rem;height:2.3rem;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      transition:color .3s,background .3s;
+    }
     .svc-grid.visible .svc-card:nth-child(1){transition-delay:.02s}.svc-grid.visible .svc-card:nth-child(2){transition-delay:.07s}.svc-grid.visible .svc-card:nth-child(3){transition-delay:.12s}.svc-grid.visible .svc-card:nth-child(4){transition-delay:.17s}.svc-grid.visible .svc-card:nth-child(5){transition-delay:.22s}.svc-grid.visible .svc-card:nth-child(6){transition-delay:.27s}.svc-grid.visible .svc-card:nth-child(7){transition-delay:.32s}.svc-grid.visible .svc-card:nth-child(8){transition-delay:.37s}.svc-grid.visible .svc-card:nth-child(9){transition-delay:.42s}.svc-grid.visible .svc-card:nth-child(10){transition-delay:.47s}.svc-grid.visible .svc-card:nth-child(11){transition-delay:.52s}.svc-grid.visible .svc-card:nth-child(12){transition-delay:.57s}.svc-grid.visible .svc-card:nth-child(13){transition-delay:.62s}.svc-grid.visible .svc-card:nth-child(14){transition-delay:.67s}
     .links-strip{max-width:1200px;margin:0 auto;padding:0 clamp(1.5rem,5vw,4rem) clamp(5rem,9vh,7rem);position:relative;z-index:1}
     .links-strip h3{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:0 0 1.1rem}
@@ -96,10 +105,12 @@
     .link-card{
       display:flex;align-items:center;justify-content:space-between;gap:1rem;
       padding:1.4rem 1.6rem;border-radius:1rem;text-decoration:none;
-      background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.28);
-      transition:background .3s,transform .3s,border-color .3s;
+      background:linear-gradient(150deg,#1B3A27,#122B1B);
+      border:1px solid rgba(200,169,110,.35);
+      box-shadow:0 12px 34px rgba(0,0,0,.35);
+      transition:background .3s,transform .3s,border-color .3s,box-shadow .3s;
     }
-    .link-card:hover{background:rgba(200,169,110,.16);border-color:rgba(200,169,110,.55);transform:translateY(-3px)}
+    .link-card:hover{border-color:rgba(200,169,110,.7);transform:translateY(-3px);box-shadow:0 18px 44px rgba(0,0,0,.45)}
     .link-card strong{display:block;color:#fff;font-size:.98rem;font-weight:600;margin-bottom:.25rem}
     .link-card span{color:rgba(255,255,255,.5);font-size:.8rem;line-height:1.5}
     .link-card .link-arrow{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(200,169,110,.5);display:flex;align-items:center;justify-content:center;color:#C8A96E;font-size:1rem;transition:background .3s,transform .3s}
@@ -266,8 +277,8 @@
           </div>
           <div class="team-card__overlay"><span style="color:#fff;font-size:.75rem">Ver perfil</span></div>
         </div>
-        <h3 class="team-card__name">Dra. Ana Martín</h3>
-        <p class="team-card__role">Directora Técnica · Dermofarmacia</p>
+        <h3 class="team-card__name">Leticia Fiestas</h3>
+        <p class="team-card__role">Farmacéutica</p>
       </div>
       <div class="team-card">
         <div class="team-card__photo">
