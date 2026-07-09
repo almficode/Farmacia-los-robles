@@ -18,6 +18,34 @@
 .social-float__label{margin-left:.6rem;opacity:0;transition:opacity .2s .05s}
 .social-float__btn:hover .social-float__label{opacity:1}
 @media(max-width:600px){.social-float{display:none}}
+/* ── Móvil: valores apilados con respiro ── */
+@media(max-width:900px){
+  .valores-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:640px){
+  .valores-grid{grid-template-columns:1fr!important;gap:1.25rem!important}
+}
+/* ── Móvil: equipo en carrusel horizontal ── */
+@media(max-width:700px){
+  .team-grid{
+    display:flex!important;
+    grid-template-columns:none!important;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    gap:1rem!important;
+    padding-bottom:1rem;
+    margin-inline:-1.5rem;
+    padding-inline:1.5rem;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .team-grid::-webkit-scrollbar{display:none}
+  .team-grid .team-card{
+    flex:0 0 72%;
+    max-width:300px;
+    scroll-snap-align:center;
+  }
+}
 </style>
 </head>
 <body>
@@ -211,7 +239,7 @@
       Los valores que<br><em style="font-style:italic;color:#C8A96E">nos guían cada día.</em>
     </h2>
 
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+    <div class="valores-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
 
       <!-- Confianza -->
       <div style="border-radius:1.5rem;overflow:hidden;background:#fff;box-shadow:0 4px 40px rgba(0,0,0,.06)">
